@@ -1,0 +1,198 @@
+:host {
+  moots-picker-modal {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+  }
+
+  ion-select {
+    max-width: unset;
+    .select-icon > .select-icon-inner,
+    .select-text {
+      color: #fff !important;
+    }
+    &.select-ios {
+      max-width: unset;
+    }
+  }
+
+  .calendar-page {
+    background-color: #fbfbfb;
+  }
+
+  .month-box {
+    display: inline-block;
+    width: 100%;
+    padding-bottom: 1em;
+    border-bottom: 1px solid #f1f1f1;
+  }
+
+  .month-title {
+    font-size: 1.0rem;
+    font-weight: 500;
+    color: black;
+    font-weight: bold;
+  }
+
+  h4 {
+    font-weight: 400;
+    font-size: 1.1rem;
+    display: block;
+    text-align: center;
+    margin: 1rem 0 0;
+    color: #929292;
+  }
+
+  .header-grid {
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .date-col {
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+    width: 30%;
+    margin-top: 0;
+  }
+
+  h2 {
+    margin-top: 4px;
+  }
+
+  h3 {
+    margin-top: 8px;
+  }
+
+  .highlight-part {
+    opacity: 1!important;
+    color: #FFF;
+    text-shadow:
+        0 0 1vw #0af,
+        0 0 3vw #0af,
+        0 0 10vw #0af,
+        0 0 10vw #8cf,
+        0 0 .4vw #FFF;
+    }
+
+  .selected-am-pm {
+    color: green;
+    font-size: 2rem;
+  }
+
+  .selected-time {
+      font-size: 4rem;
+      font-weight: bold;
+  }
+
+  .active-time-unit {
+      color: green;
+  }
+
+  .date-string {
+    font-size: 17px;
+    font-weight: bold;
+    line-height: 1.35;
+    text-align: center;
+    opacity: 0.8;
+    padding: 6px 2px 6px 2px;
+  }
+
+  .time-string {
+    font-size: 32px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 0.94;
+    letter-spacing: normal;
+    text-align: center;
+    padding: 8px 2px 8px 2px;
+  }
+
+  .title-label {
+    font-size: 21px;
+    font-weight: 900;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.24;
+    letter-spacing: 0.36px;
+    color: #000000;
+  }
+
+  .date-label-active {
+    font-size: 15px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.33;
+    letter-spacing: -0.24px;
+    color: #000000;
+  }
+
+  .date-label {
+    font-size: 15px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.33;
+    letter-spacing: -0.24px;
+    color: #9b9b9b;
+  }
+
+  .date-label.selected {
+    color: #000000;
+  }
+
+  .time-label {
+    font-size: 32px;
+    font-weight: 900;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 0.81;
+    letter-spacing: 0.55px;
+    color: #9b9b9b;
+
+    .selected {
+        color: #000000;
+    }
+
+  }
+
+  .begin-container {
+    padding: 1em;
+    height: 148px;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    background-color: #ffffff;
+    border: solid 2px transparent;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+  }
+
+  .end-container {
+    padding: 1em;
+    height: 148px;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    background-color: #ffffff;
+    border: solid 2px transparent;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+  }
+
+  .header-container {
+    background: linear-gradient(0deg, #ffffff 50%, #1490e1 50%);
+    padding-top: 1rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .root-container {
+    padding-top: constant(safe-area-inset-top); //for iOS 11.2
+    padding-top: env(safe-area-inset-top); //for iOS 11.1
+  }
+
+  .ampm-indicator {
+    font-size: 1.5rem;
+    margin-left: 0.25rem;
+  }
+}

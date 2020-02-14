@@ -1,0 +1,96 @@
+<div class="root-container">
+  <div class="header-container">
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+      <div fxLayout="column" fxLayoutAlign="space-between start" fxFlex="45%" class="begin-container"
+        [@highlight]="isBegin(pickState) ? 'active' : 'inactive'" (click)="onClickStartDate()" [style.height.px]="this._d.fullday ? '101' : '148'">
+        <div class="title-label">{{ this._d.startLabel }}</div>
+        <div class="date-label" [class.selected]="pickState === GlobalPickState.BEGIN_DATE">
+          {{ getDateString(0) }}</div>
+        <div fxLayout="row" fxLayoutAlign="start center" class="time-label" *ngIf="!this._d.fullday">
+          <div [class.selected]="pickState === GlobalPickState.BEGIN_HOUR"
+            (click)="onClickStartHour($event)">{{ getTimeHours(0) }}</div>
+          <div>:</div>
+          <div [class.selected]="pickState === GlobalPickState.BEGIN_MINUTE"
+            (click)="onClickStartMin($event)">{{ getTimeMinutes(0) }}</div>
+          <div *ngIf="!is24Hours()" class="ampm-indicator">{{ getAmPm(0) }}</div>
+        </div>
+      </div>
+
+      <div fxLayout="column" fxLayoutAlign="space-between start" fxFlex="45%" class="end-container"
+        [@highlight]="isEnd(pickState) ? 'active' : 'inactive'" (click)="onClickEndDate()" [style.height.px]="this._d.fullday ? '101' : '148'">
+        <div class="title-label">{{ this._d.endLabel }}</div>
+        <div class="date-label" [class.selected]="pickState === GlobalPickState.END_DATE">{{ getDateString(1) }}
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center" class="time-label" *ngIf="!this._d.fullday">
+          <div [class.selected]="pickState === GlobalPickState.END_HOUR"
+            (click)="onClickEndHour($event)">{{ getTimeHours(1) }}</div>
+          <div>:</div>
+          <div [class.selected]="pickState === GlobalPickState.END_MINUTE"
+            (click)="onClickEndMin($event)">{{ getTimeMinutes(1) }}</div>
+          <div *ngIf="!is24Hours()" class="ampm-indicator">{{ getAmPm(1) }}</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <ng-content select="[sub-header]"></ng-content>
+</div>
+
+
+<div *ngIf="isTime(pickState)" style="background-color: white">
+  <div [@enterAnimation] style="background-color: white; height: 100%; overflow: hidden;">
+    <moots-clock-picker #clockPicker [pickState]="clockPickState" [mode24]="is24Hours()" [tapConf]="_d.tapticConf"
+      (valueSelected)="onClockValue($event)" (selectChange)="onSelectChange($event)"
+      [inputTime]="isBegin(pickState) ? timesTemp[0] : timesTemp[1]"></moots-clock-picker>
+  </div>
+</div>
+
+<moots-calendar-week [@openClose]="isDate(pickState) ? 'open' : 'closed'" *ngIf="isDate(pickState)"
+  [color]="_d.color" [weekArray]="_d.weekdays" [weekStart]="_d.weekStart">
+</moots-calendar-week>
+
+<ion-content (ionScroll)="onScroll($event)" [scrollEvents]="true" class="calendar-page"
+  [ngClass]="{ 'multi-selection': _d.pickMode === PickMode.MULTI }" [class.noFlow]="isTime(pickState)"
+  [@openClose]="isDate(pickState) ? 'open' : 'closed'">
+  <div #months>
+    <ng-template ngFor let-month [ngForOf]="calendarMonths" [ngForTrackBy]="trackByIndex" let-i="index">
+      <div class="month-box" [attr.id]="'month-' + i">
+        <h4 class="text-center month-title">
+          {{ _monthFormat(month.original.date) }}
+        </h4>
+        <moots-calendar-month [month]="month" [pickMode]="_d.pickMode" [isSaveHistory]="_d.isSaveHistory" [id]="_d.id"
+          [color]="_d.color" (change)="onChange($event)" [(ngModel)]="datesTemp"
+          [selectBegin]="isBegin(pickState)">
+        </moots-calendar-month>
+      </div>
+    </ng-template>
+  </div>
+
+  <ion-infinite-scroll threshold="25%" (ionInfinite)="nextMonth($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button type="button" slot="icon-only" fill="clear" (click)="onCancel()">
+        <span *ngIf="_d.closeLabel !== '' && !_d.closeIcon">{{
+          _d.closeLabel
+        }}</span>
+        <ion-icon *ngIf="_d.closeIcon" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button type="button" slot="icon-only" *ngIf="!_d.autoDone" fill="clear" [disabled]="!canDone()"
+        (click)="done()">
+        <span *ngIf="_d.doneLabel !== '' && !_d.doneIcon">{{
+          _d.doneLabel
+        }}</span>
+        <ion-icon *ngIf="_d.doneIcon" name="checkmark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

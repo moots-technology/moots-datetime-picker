@@ -1,0 +1,27 @@
+image: gitlab.moots.io:55550/docker-images/rune-ionic-chrome:master
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2"
+
+stages:
+  - build
+
+cache:
+  paths:
+    - .m2/
+
+before_script:
+  - npm install npm@latest -g
+  - npm install @angular/cli -g
+  - npm i
+
+build:
+  stage: build
+  script:
+    - ionic build
+
+test:
+  stage: build
+  script:
+    - npm run lint
+    - npm run test-headless

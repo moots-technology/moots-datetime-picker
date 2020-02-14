@@ -1,0 +1,51 @@
+<div class="clock-container">
+  <div style="text-align: center;" [@switch]="pickState === ClockPickState.HOUR ? 'open' : 'closed'">
+    <!-- Hour clock -->
+    <div #hourClock *ngIf="pickState === ClockPickState.HOUR" (click)="tappedClock($event)" (touchstart)="draggedClock($event)"
+      (touchmove)="draggedClock($event)" (touchend)="tappedClock($event)">
+
+      <div class="hours-12-container">
+        <div *ngFor="let hour of ['3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '1', '2']"
+          fxLayoutAlign="center center" class="clock-digit" [class.highlight]="hourSelected === hour">
+          {{ hour }}
+        </div>
+      </div>
+
+      <div *ngIf="mode24" class="hours-24-container">
+        <div *ngFor="let hour of ['15', '16', '17', '18', '19', '20', '21', '22', '23', '00', '13', '14']"
+          fxLayoutAlign="center center" class="clock-digit" [class.highlight]="hourSelected === hour">
+          {{ hour }}
+        </div>
+      </div>
+      <div class="clock-hand" [ngStyle]="hourHandStyle" [ngClass]="(getHourNumber() > 0 && getHourNumber() < 13) ? '' : 'inner'"></div>
+    </div>
+    <!-- Minute clock -->
+    <div #minuteClock *ngIf="pickState === ClockPickState.MINUTE" (click)="tappedClock($event)" (touchstart)="draggedClock($event)"
+      (touchmove)="draggedClock($event)" (touchend)="tappedClock($event)">
+
+      <div class="minutes-container">
+        <div *ngFor="let minute of ['15', '20', '25', '30', '35', '40', '45', '50', '55', '00', '05', '10']"
+          fxLayoutAlign="center center" class="clock-digit" [class.highlight]="minuteSelected === minute">
+          {{ minute }}
+        </div>
+      </div>
+
+      <div class="clock-hand" [ngStyle]="minuteHandStyle"></div>
+    </div>
+
+    <div class="clock-center"></div>
+  </div>
+  <!-- AM PM Buttons -->
+  <div *ngIf="!mode24">
+    <ion-button fill="{{ampm === 'am' ? 'solid' : 'outline'}}" class="ampm" (click)="setAmPm('am')"
+      style="float: left;margin-left: 1em;">
+      AM
+    </ion-button>
+    <div style="text-align: center;display: inline-flex;margin-top:16px;">
+    </div>
+    <ion-button fill="{{ampm === 'pm' ? 'solid' : 'outline'}}" class="ampm" (click)="setAmPm('pm')"
+      style="float: right;margin-right: 1em;">
+      PM
+    </ion-button>
+  </div>
+</div>

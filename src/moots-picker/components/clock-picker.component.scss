@@ -1,0 +1,132 @@
+@import '../mixins.scss';
+
+.clock-container {
+  text-align: center;
+  user-select: none;
+}
+
+.ampm {
+  font-weight: 500;
+  font-size: 1.5rem;
+  background: none;
+  margin-top: -1em;
+  border-radius: 100%;
+  width: 2.5em;
+  height: 2.5em;
+}
+
+.highlight {
+  background-color: #488aff;
+  border-radius: 100%;
+  padding: 0.5em;
+  margin: -0.75rem;
+  width: 3rem;
+  height: 3rem;
+  color: white !important;
+  overflow-wrap: normal;
+  overflow: visible;
+}
+
+ion-button {
+    --border-radius: 100%;
+}
+
+div.toolbar-background {
+    --min-height: 44px;
+}
+
+
+.clock-hand {
+    position: absolute;
+    width: 1px;
+    background-color: #488aff;
+    border: solid 2px #488aff;
+    height: 36%;
+    transform-origin: bottom center;
+    transform: rotate(0deg);
+    transition: background .15s ease-in-out;
+    transition: border-width 0.15s ease-in-out;
+    left: calc(50% - 2px);
+    top: 14%;
+}
+
+.clock-hand.inner {
+  top: 28%;
+  height: 22%;
+}
+
+.clock-center {
+    position: absolute;
+    width: 0.5em;
+    background-color: #488aff;
+    border-radius: 100%;
+    height: 0.5em;
+    left: calc(50% - 0.25em);
+    top: calc(50% - 0.25em);
+  }
+
+.minutes-container {
+    @include on-circle($item-count: 12, $circle-size: 20em, $item-size: 1.75em);
+    margin: 1em auto 0;
+    background-color: #e2f6ff;
+
+    .clock-digit {
+        display: block;
+        max-width: 100%;
+        border-radius: 50%;
+        transition: .15s;
+        font-size: 28px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.21;
+        letter-spacing: 0.34px;
+        color: #000000;
+        z-index: 5;
+        cursor: pointer;
+    }
+}
+
+.hours-12-container {
+    @include on-circle($item-count: 12, $circle-size: 20em, $item-size: 1.75em);
+    margin: 1em auto 0;
+    background-color: #e2f6ff;
+
+    .clock-digit {
+        display: block;
+        max-width: 100%;
+        border-radius: 50%;
+        transition: .15s;
+        font-size: 28px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.21;
+        letter-spacing: 0.34px;
+        color: #000000;
+        z-index: 5;
+        cursor: pointer;
+    }
+}
+
+.hours-24-container {
+    @include on-circle($item-count: 12, $circle-size: 20em, $item-size: 2.5em);
+    margin: 1em auto 0;
+    margin-top: -20rem;
+
+    .clock-digit {
+        display: block;
+        max-width: 100%;
+        border-radius: 50%;
+        transition: .15s;
+        font-size: 16px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.31;
+        letter-spacing: -0.32px;
+        color: #757575;
+        z-index: 5;
+        cursor: pointer;
+    }
+}

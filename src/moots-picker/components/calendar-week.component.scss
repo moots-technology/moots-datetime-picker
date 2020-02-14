@@ -1,0 +1,51 @@
+:host {
+
+    .toolbar-background-md,
+    .toolbar-background-ios {
+        background: transparent;
+    }
+
+    .week-toolbar {
+        --padding-start: 0;
+        --padding-end: 0;
+        --padding-bottom: 0;
+        --padding-top: 0;
+
+        &.toolbar-md {
+            min-height: 44px;
+        }
+    }
+
+    .week-title {
+        margin: 0;
+        height: 44px;
+        width: 100%;
+        font-size: 0.9em;
+        padding: 15px 3%;
+        background-color: whitesmoke;
+        border-bottom: solid 1px rgba(0, 0, 0, 0.3);
+
+        &.light,
+        &.transparent {
+            color: #9e9e9e;
+        }
+
+        li {
+            list-style-type: none;
+            display: block;
+            float: left;
+            width: 14%;
+            text-align: center;
+        }
+
+        li:nth-of-type(7n),
+        li:nth-of-type(7n + 1) {
+            width: 15%;
+        }
+
+    }
+
+    .last-item {
+        color: red;
+    }
+}

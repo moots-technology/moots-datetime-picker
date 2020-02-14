@@ -1,0 +1,12 @@
+{
+  "extends": "tslint-ionic-rules/strict",
+  "rules": {
+    "linebreak-style": false,
+    "no-console": {
+      "severity": "warning"
+    },
+    "trailing-comma": false,
+    "no-floating-promises": false,
+    "strict-boolean-conditions": false
+  }
+}
