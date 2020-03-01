@@ -90,3 +90,10 @@ export class DemoModalBasicComponent {
 ## Component
 
 Coming soon!
+
+# Development Notes
+
+To release a new version, commit all your changes and run:
+- `npm version patch` to increment the version
+- `npm run packagr` to build the library package
+- `npm publish dist` to pubish it to npmjs
