@@ -3,6 +3,7 @@
   "version": "0.2.2",
   "description": "Combination of a calendar datepicker and clock timepicker into one component for ionic 4.",
   "author": "run-e software",
+  "repository": "github:run-e/moots-datetime-picker",
   "license": "MIT",
   "keywords": [
     "ionic",
