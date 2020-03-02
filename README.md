@@ -1,20 +1,23 @@
-# Moots Datetime Picker
+# About
 
-A beautiful ionic date & time picker with calendar and clock component for single dates and ranges.
-Brought to you by [run-e](http://run-e.com) for [moots](https://moots.io).
+[moots technology](https://mootstech.com.au) is an Adelaide, South Australia based consultancy and software development company with a huge expertise in usage requirements analysis and cloud architecture frameworks for creating modern software solutions. Hereby we prioritise high usability and amazing UX over adding further features.
 
-[Live Stackblitz Demo](https://moots-datetime-picker-demo.stackblitz.io)
+# Optimised Datetime Picker for Ionic
+
+An easy to use and beautiful ionic date & time picker with calendar and clock component for single dates and date ranges.
+
+Please find a live demo on [Stackblitz](https://moots-datetime-picker-demo.stackblitz.io)
 
 Notes:
-- Certain features might not work properly on stackblitz - but should work in a real project
-- The clock picker is optimized for touch control, make sure to use a mobile device view
+- Certain features might not work properly on stackblitz - but work in a real project
+- The clock picker is optimised for touch control, thus set your view to a mobile device
 
 ![](https://i.imgur.com/U8lrlqD.png)
 ![](https://i.imgur.com/53LWKAo.png)
 
 # Install
 
-Moment for date handling and angular flex-layout dependencies:
+Dependencies (angular flex-layout):
 
 `npm i moment moment-duration-format @angular/cdk @angular/flex-layout @angular/animations`
 
@@ -40,7 +43,7 @@ Import the `MootsPickerModule` and dependencies in your `AppModule`:
 export class AppModule {}
 ```
 
-You can use the following examples as a quick start to get the picker working in your project.
+Please find below an example as a quick start guide to get the picker running.
 
 ## Modal
 
