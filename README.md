@@ -6,14 +6,16 @@
 
 An easy to use and beautiful ionic date & time picker with calendar and clock component for single dates and date ranges.
 
+![](https://i.imgur.com/U8lrlqD.png)
+![](https://i.imgur.com/53LWKAo.png)
+
+# Live Demo
+
 Please find a live demo on [Stackblitz](https://moots-datetime-picker-demo.stackblitz.io)
 
 Notes:
 - Certain features might not work properly on stackblitz - but work in a real project
 - The clock picker is optimised for touch control, thus set your view to a mobile device
-
-![](https://i.imgur.com/U8lrlqD.png)
-![](https://i.imgur.com/53LWKAo.png)
 
 # Install
 
