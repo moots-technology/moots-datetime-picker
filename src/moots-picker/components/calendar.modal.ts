@@ -148,13 +148,8 @@ export class PickerModal implements OnInit, AfterViewInit {
   }
 
   getTimeHours(index: number) {
-    const mom = this.timesTemp[index];
-    const hours = this.is24Hours() ? mom.hours() : (mom.hours() > 12 ? mom.hours() % 12 : mom.hours());
-    const dur = moment.duration(hours, 'hour');
-    return dur
-      .format('HH', {
-        trim: false
-      })
+    return this.timesTemp[index]
+      .format(this.is24Hours() ? 'HH' : 'hh')
       .toString();
   }
 

@@ -37,13 +37,13 @@
   </div>
   <!-- AM PM Buttons -->
   <div *ngIf="!mode24">
-    <ion-button fill="{{ampm === 'am' ? 'solid' : 'outline'}}" class="ampm" (click)="setAmPm('am')"
+    <ion-button fill="{{getAmPm() === 'am' ? 'solid' : 'outline'}}" class="ampm" (click)="setAmPm('am')"
       style="float: left;margin-left: 1em;">
       AM
     </ion-button>
     <div style="text-align: center;display: inline-flex;margin-top:16px;">
     </div>
-    <ion-button fill="{{ampm === 'pm' ? 'solid' : 'outline'}}" class="ampm" (click)="setAmPm('pm')"
+    <ion-button fill="{{getAmPm() === 'pm' ? 'solid' : 'outline'}}" class="ampm" (click)="setAmPm('pm')"
       style="float: right;margin-right: 1em;">
       PM
     </ion-button>

@@ -11,11 +11,6 @@ interface Coordinate {
   y: number;
 }
 
-// function closestEquivalentAngle(from, to) {
-//     const delta = ((((to - from) % 360) + 540) % 360) - 180;
-//     return from + delta;
-// }
-
 export enum ClockPickState {
   HOUR,
   MINUTE
@@ -54,9 +49,6 @@ export class ClockPickerComponent {
   _inputTime: momentNs.Moment;
   @Input() set inputTime(time: momentNs.Moment) {
     this._inputTime = time;
-    if (!this.mode24) {
-      this.ampm = time.format('a');
-    }
     let hour = time.format(this.mode24 ? 'HH' : 'hh');
     hour = hour.startsWith('0') ? hour.substr(1) : hour;
     this.setClockFromHour(hour);
@@ -75,7 +67,6 @@ export class ClockPickerComponent {
 
   hourSelected = '3';
   minuteSelected = '00';
-  ampm = 'am';
   hourHandStyle: { transform: string; };
   minuteHandStyle: { transform: string; };
   lastClicked: any;
@@ -92,15 +83,15 @@ export class ClockPickerComponent {
     this.setClockFromMinute('00');
   }
 
+  getAmPm() {
+    return this._inputTime.format('a');
+  }
+
   setAmPm(arg: string) {
-    this.ampm = arg;
-    let hours = moment(this.hourSelected, 'HH').hours();
-    const mins = moment(this.minuteSelected, 'mm').minutes();
-    const old = this._inputTime;
-    if (!this.mode24 && this.ampm === 'pm') {
-      hours += 12;
-    }
-    this._inputTime = old.hours(hours).minutes(mins);
+    const f = this._inputTime.format('hh:mm a');
+    const temp = moment(f.replace(this.getAmPm(), arg), 'hh:mm a');
+    this._inputTime.hours(temp.hours());
+    this._inputTime.minutes(temp.minutes());
   }
 
   getHourNumber(): number {
@@ -128,13 +119,9 @@ export class ClockPickerComponent {
         this.setMinuteFromAngle(angle);
       }
 
-      let hours = moment(this.hourSelected, 'HH').hours();
-      const mins = moment(this.minuteSelected, 'mm').minutes();
-      const old = this._inputTime;
-      if (!this.mode24 && this.ampm === 'pm') {
-        hours += 12;
-      }
-      this._inputTime = old.hours(hours).minutes(mins);
+      const time = this.hourSelected + ' ' + this.minuteSelected + (this.mode24 ? '' : this.getAmPm());
+      const temp = moment(time, 'hh mm a');
+      this._inputTime = this._inputTime.hours(temp.hours()).minutes(temp.minutes());
     }
   }
 
