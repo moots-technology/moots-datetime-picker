@@ -43,7 +43,6 @@
     "@ionic/angular-toolkit": "^2.1.2",
     "@types/jasmine": "^3.4.6",
     "@types/jasminewd2": "~2.0.8",
-    "@types/moment-duration-format": "^2.2.2",
     "@types/node": "~12.11.7",
     "codelyzer": "^5.2.1",
     "core-js": "^3.6.4",
@@ -56,7 +55,6 @@
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "~1.4.2",
     "moment": "^2.24.0",
-    "moment-duration-format": "^2.3.2",
     "ng-packagr": "^5.7.1",
     "protractor": "~5.4.2",
     "puppeteer": "^2.0.0",
@@ -70,7 +68,6 @@
   },
   "peerDependencies": {
     "moment": "^2.24.0",
-    "moment-duration-format": "^2.3.2",
     "@angular/cdk": "^8.2.3",
     "@angular/flex-layout": "^8.0.0-beta.27"
   },

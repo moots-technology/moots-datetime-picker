@@ -21,7 +21,7 @@ Notes:
 
 Dependencies (angular flex-layout):
 
-`npm i moment moment-duration-format @angular/cdk @angular/flex-layout @angular/animations`
+`npm i moment moment @angular/cdk @angular/flex-layout @angular/animations`
 
 The picker:
 

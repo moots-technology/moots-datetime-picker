@@ -18,7 +18,6 @@
       "dom"
     ],
     "types": [
-      "@types/moment-duration-format",
       "jasmine"
     ]
   }

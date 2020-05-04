@@ -1,16 +1,12 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostBinding, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { IonContent, ModalController, NavParams } from '@ionic/angular';
-import * as momentNs from 'moment';
-// tslint:disable-next-line:no-import-side-effect
-import 'moment-duration-format';
+import * as moment from 'moment';
 
 import { CalendarDay, CalendarMonth, GlobalPickState, PickMode, PickerModalOptions } from '../calendar.model';
 import { CalendarService } from '../services/calendar.service';
 
 import { ClockPickState, ClockPickerComponent } from './clock-picker.component';
-
-const moment = momentNs;
 
 const NUM_OF_MONTHS_TO_CREATE = 2;
 
@@ -82,7 +78,7 @@ export class PickerModal implements OnInit, AfterViewInit {
   options: PickerModalOptions;
 
   datesTemp: CalendarDay[] = [undefined, undefined];
-  timesTemp: momentNs.Moment[] = [undefined, undefined];
+  timesTemp: moment.Moment[] = [undefined, undefined];
   calendarMonths: CalendarMonth[];
   step: number;
   showYearPicker: boolean;
@@ -112,7 +108,7 @@ export class PickerModal implements OnInit, AfterViewInit {
     this.clockPickState = cstate;
   }
 
-  onClockValue(time: momentNs.Moment) {
+  onClockValue(time: moment.Moment) {
     if (this.isBegin(this.pickState)) {
       this.timesTemp[0] = time;
     } else {
@@ -149,17 +145,11 @@ export class PickerModal implements OnInit, AfterViewInit {
 
   getTimeHours(index: number) {
     return this.timesTemp[index]
-      .format(this.is24Hours() ? 'HH' : 'hh')
-      .toString();
+      .format(this.is24Hours() ? 'HH' : 'hh');
   }
 
   getTimeMinutes(index: number) {
-    return moment
-      .duration(this.timesTemp[index].minutes(), 'minute')
-      .format('mm', {
-        trim: false
-      })
-      .toString();
+    return this.timesTemp[index].format('mm');
   }
 
   getAmPm(index: number) {
@@ -441,7 +431,7 @@ export class PickerModal implements OnInit, AfterViewInit {
     this.repaintDOM();
   }
 
-  scrollToDate(date: momentNs.Moment): void {
+  scrollToDate(date: moment.Moment): void {
     const defaultDateIndex = this.findInitMonthNumber(date);
     const monthElement = this.monthsEle.nativeElement.children[
       `month-${defaultDateIndex}`
@@ -511,7 +501,7 @@ export class PickerModal implements OnInit, AfterViewInit {
     });
   }
 
-  findInitMonthNumber(date: momentNs.Moment): number {
+  findInitMonthNumber(date: moment.Moment): number {
     let startDate = this.actualFirstTime
       ? moment(this.actualFirstTime)
       : moment(this._d.from);
