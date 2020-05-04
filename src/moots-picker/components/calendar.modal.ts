@@ -79,7 +79,7 @@ export class PickerModal implements OnInit, AfterViewInit {
   options: PickerModalOptions;
 
   datesTemp: CalendarDay[] = [undefined, undefined];
-  timesTemp: moment.Moment[] = [undefined, undefined];
+  timesTemp: momentNs.Moment[] = [undefined, undefined];
   calendarMonths: CalendarMonth[];
   step: number;
   showYearPicker: boolean;
@@ -109,7 +109,7 @@ export class PickerModal implements OnInit, AfterViewInit {
     this.clockPickState = cstate;
   }
 
-  onClockValue(time: moment.Moment) {
+  onClockValue(time: momentNs.Moment) {
     if (this.isBegin(this.pickState)) {
       this.timesTemp[0] = time;
     } else {
@@ -432,7 +432,7 @@ export class PickerModal implements OnInit, AfterViewInit {
     this.repaintDOM();
   }
 
-  scrollToDate(date: moment.Moment): void {
+  scrollToDate(date: momentNs.Moment): void {
     const defaultDateIndex = this.findInitMonthNumber(date);
     const monthElement = this.monthsEle.nativeElement.children[
       `month-${defaultDateIndex}`
@@ -502,7 +502,7 @@ export class PickerModal implements OnInit, AfterViewInit {
     });
   }
 
-  findInitMonthNumber(date: moment.Moment): number {
+  findInitMonthNumber(date: momentNs.Moment): number {
     let startDate = this.actualFirstTime
       ? moment(this.actualFirstTime)
       : moment(this._d.from);
