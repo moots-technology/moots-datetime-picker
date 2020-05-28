@@ -131,7 +131,15 @@ export class PickerModal implements OnInit, AfterViewInit {
         if (this.isBegin(this.pickState)) {
           this.timesTemp[1] = this.timesTemp[0].clone().add(15, 'minutes');
         } else {
-          this.timesTemp[0] = this.timesTemp[1].clone().subtract(15, 'minutes');
+          const ampm = this.timesTemp[1].format('a');
+          if (this.is24Hours() || ampm === 'pm') {
+            this.timesTemp[0] = this.timesTemp[1].clone().subtract(15, 'minutes');
+          } else {
+            const f = this.timesTemp[1].format('hh:mm a');
+            const temp = moment(f.replace(ampm, 'pm'), 'hh:mm a');
+            this.timesTemp[1].hours(temp.hours());
+            this.timesTemp[1].minutes(temp.minutes());
+          }
         }
       }
     }

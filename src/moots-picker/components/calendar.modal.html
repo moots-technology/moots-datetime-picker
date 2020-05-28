@@ -12,7 +12,7 @@
           <div>:</div>
           <div [class.selected]="pickState === GlobalPickState.BEGIN_MINUTE"
             (click)="onClickStartMin($event)">{{ getTimeMinutes(0) }}</div>
-          <div *ngIf="!is24Hours()" class="ampm-indicator" fxLayoutAlign="center center">{{ getAmPm(0) }}</div>
+          <div *ngIf="!is24Hours()" class="ampm-indicator" fxLayoutAlign="center center" (click)="onClickStartHour($event)">{{ getAmPm(0) }}</div>
         </div>
       </div>
 
@@ -27,7 +27,7 @@
           <div>:</div>
           <div [class.selected]="pickState === GlobalPickState.END_MINUTE"
             (click)="onClickEndMin($event)">{{ getTimeMinutes(1) }}</div>
-          <div *ngIf="!is24Hours()" class="ampm-indicator" fxLayoutAlign="center center">{{ getAmPm(1) }}</div>
+          <div *ngIf="!is24Hours()" class="ampm-indicator" fxLayoutAlign="center center" (click)="onClickEndHour($event)">{{ getAmPm(1) }}</div>
         </div>
       </div>
 

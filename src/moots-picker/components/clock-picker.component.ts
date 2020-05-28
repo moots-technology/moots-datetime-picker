@@ -92,6 +92,7 @@ export class ClockPickerComponent {
     const temp = moment(f.replace(this.getAmPm(), arg), 'hh:mm a');
     this._inputTime.hours(temp.hours());
     this._inputTime.minutes(temp.minutes());
+    this.selectChange.emit(this.pickState);
   }
 
   getHourNumber(): number {
