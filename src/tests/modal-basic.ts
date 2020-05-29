@@ -39,7 +39,7 @@ export class DemoModalBasicComponent {
       canBackwardsSelected: false,
       weekStart: 1,
       step: 4,
-      locale: 'de',
+      locale: window.navigator.language,
     };
 
     const rendererMock = new RendererMock();

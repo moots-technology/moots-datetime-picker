@@ -29,7 +29,7 @@ export class DemoModalBasicComponent {
             defaultDateRange: this.dateRange,
             weekStart: 1,
             step: 4,
-            locale: 'de'
+            locale: window.navigator.language
         };
 
         this.myCalendar = await this.modalCtrl.create({
