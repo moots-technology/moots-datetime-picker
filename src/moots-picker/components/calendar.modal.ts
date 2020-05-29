@@ -101,8 +101,14 @@ export class PickerModal implements OnInit, AfterViewInit {
     public calSvc: CalendarService
   ) { }
 
+  localeUses24HourTime(locale: string) {
+    return new Intl.DateTimeFormat(locale, {
+      hour: 'numeric'
+    }).formatToParts(new Date(2020, 0, 1, 13)).find(part => part.type === 'hour').value.length === 2;
+  }
+
   is24Hours() {
-    return this._d.locale && this._d.locale.indexOf('de') >= 0;
+    return this._d.locale && this.localeUses24HourTime(this._d.locale);
   }
 
   onSelectChange(cstate: ClockPickState) {
