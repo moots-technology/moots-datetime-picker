@@ -8,7 +8,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes), FlexLayoutModule],
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }), FlexLayoutModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
