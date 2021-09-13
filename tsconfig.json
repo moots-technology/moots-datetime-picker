@@ -3,6 +3,7 @@
   "compilerOptions": {
     "allowUnreachableCode": false,
     "allowSyntheticDefaultImports": true,
+    "module": "esnext",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
