@@ -1,6 +1,9 @@
 {
   "extends": "tslint-ionic-rules/strict",
   "rules": {
+    "deprecation": {
+      "severity": "warning"
+    },
     "linebreak-style": false,
     "no-console": {
       "severity": "warning"

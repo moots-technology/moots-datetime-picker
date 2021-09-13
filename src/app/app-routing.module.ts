@@ -4,11 +4,11 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', loadChildren: './home/home.module#HomePageModule' },
+  { path: 'home', loadChildren: () => import('./home/home.module').then(m => m.HomePageModule) },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes), FlexLayoutModule],
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }), FlexLayoutModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

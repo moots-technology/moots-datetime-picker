@@ -62,8 +62,8 @@ export class ClockPickerComponent {
   @Output()
   valueSelected = new EventEmitter();
 
-  @ViewChild('hourClock', { static: false }) hourClock: any;
-  @ViewChild('minuteClock', { static: false }) minuteClock: any;
+  @ViewChild('hourClock') hourClock: any;
+  @ViewChild('minuteClock') minuteClock: any;
 
   hourSelected = '3';
   minuteSelected = '00';

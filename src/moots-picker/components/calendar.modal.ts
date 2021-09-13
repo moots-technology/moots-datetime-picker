@@ -69,7 +69,7 @@ export class PickerModal implements OnInit, AfterViewInit {
   content: IonContent;
   @ViewChild('months', { static: true })
   monthsEle: ElementRef;
-  @ViewChild('clockPicker', { static: false })
+  @ViewChild('clockPicker')
   clockPicker: ClockPickerComponent;
 
   @HostBinding('class.ion-page')
