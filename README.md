@@ -11,7 +11,7 @@ An easy to use and beautiful ionic date & time picker with calendar and clock co
 
 # Versions
 
-| Datepicker-Version | Angular-Version |
+| Datetime Picker-Version | Angular-Version |
 |---|---|
 | <=0.2.9 | Angular 8 |
 | >=0.3.0 | Angular 12|
