@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output, Provider, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import * as momentNs from 'moment';
+import * as moment from 'moment';
 
-const moment = momentNs;
+
 
 import { CalendarComponentMonthChange, CalendarComponentOptions, CalendarComponentPayloadTypes, CalendarDay, CalendarMonth, PickMode, PickerModalOptions } from '../calendar.model';
 import { defaults } from '../config';

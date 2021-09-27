@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import * as momentNs from 'moment';
+import * as moment from 'moment';
 
-const moment = momentNs;
+
 
 import { CalendarComponentOptions, PickMode } from '../moots-picker';
 
