@@ -9,6 +9,15 @@ An easy to use and beautiful ionic date & time picker with calendar and clock co
 ![](https://i.imgur.com/U8lrlqD.png)
 ![](https://i.imgur.com/53LWKAo.png)
 
+# Versions
+
+| Datetime Picker-Version | Angular-Version |
+|---|---|
+| <=0.2.9 | Angular 8 |
+| >=0.3.0 | Angular 12|
+
+
+
 # Live Demo
 
 Please find a live demo on [Stackblitz](https://moots-picker-demo.stackblitz.io)
