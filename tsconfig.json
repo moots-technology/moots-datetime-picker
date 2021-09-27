@@ -3,21 +3,18 @@
   "compilerOptions": {
     "allowUnreachableCode": false,
     "allowSyntheticDefaultImports": true,
-    "module": "es2020",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
     "noImplicitAny": true,
     "noUnusedParameters": true,
     "noUnusedLocals": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "target": "es5",
-    "lib": [
-      "es2017",
-      "dom"
-    ],
+    "target": "es2015",
+    "module": "es2020",
+    "lib": ["es2018", "dom"],
     "types": [
       "jasmine"
     ]

@@ -27,21 +27,13 @@
               },
               {
                 "glob": "**/*.svg",
-                "input": "node_modules/@ionic/angular/dist/ionic/svg",
+                "input": "node_modules/ionicons/dist/ionicons/svg",
                 "output": "./svg"
               }
             ],
-            "styles": [
-              {
-                "input": "src/theme/variables.scss",
-                "inject": true
-              },
-              {
-                "input": "src/global.scss",
-                "inject": true
-              }
-            ],
+            "styles": ["src/theme/variables.scss", "src/global.scss"],
             "scripts": [],
+            "aot": false,
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,
@@ -51,12 +43,6 @@
           },
           "configurations": {
             "production": {
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
-              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -67,9 +53,17 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
+              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
             }
           },
           "defaultConfiguration": ""
