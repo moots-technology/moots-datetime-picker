@@ -38,8 +38,8 @@
 </div>
 
 
-<div *ngIf="isTime(pickState)" style="background-color: white">
-  <div [@enterAnimation] style="background-color: white; height: 100%; overflow: hidden;">
+<div *ngIf="isTime(pickState)" style="background-color: var(--ion-color-light-tint); height: 100%">
+  <div [@enterAnimation] style="background-color: var(--ion-color-light-tint); height: 100%; overflow: hidden;">
     <moots-clock-picker #clockPicker [pickState]="clockPickState" [mode24]="is24Hours()" [tapConf]="_d.tapticConf"
       (valueSelected)="onClockValue($event)" (selectChange)="onSelectChange($event)"
       [inputTime]="isBegin(pickState) ? timesTemp[0] : timesTemp[1]"></moots-clock-picker>

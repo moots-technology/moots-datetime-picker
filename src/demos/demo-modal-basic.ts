@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import * as momentNs from 'moment';
+import * as moment from 'moment';
 
 import { PickMode, PickerModal, PickerModalOptions } from '../moots-picker';
-const moment = momentNs;
 
 @Component({
     selector: 'demo-modal-basic',
@@ -12,7 +11,7 @@ const moment = momentNs;
     `
 })
 export class DemoModalBasicComponent {
-    date: momentNs.Moment = moment();
+    date: moment.Moment = moment();
     dateRange = {
         from: this.date,
         to: this.date

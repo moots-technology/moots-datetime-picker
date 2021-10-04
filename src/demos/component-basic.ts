@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import * as momentNs from 'moment';
-
-const moment = momentNs;
+import * as moment from 'moment';
 
 import { CalendarComponentOptions } from '../moots-picker';
 
@@ -19,7 +17,7 @@ import { CalendarComponentOptions } from '../moots-picker';
     `,
   })
 export class DemoComponentBasicComponent {
-  date: momentNs.Moment = moment();
+  date: moment.Moment = moment();
   options: CalendarComponentOptions = {
     from: this.date,
   };

@@ -1,8 +1,8 @@
 import { animate, keyframes, state, style, transition, trigger, } from '@angular/animations';
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import * as momentNs from 'moment';
+import * as moment from 'moment';
 
-const moment = momentNs;
+
 
 import { TapticConfig } from '../calendar.model';
 
@@ -46,8 +46,8 @@ export class ClockPickerComponent {
   @Input() pickState = ClockPickState.HOUR;
   @Input() mode24 = true;
 
-  _inputTime: momentNs.Moment;
-  @Input() set inputTime(time: momentNs.Moment) {
+  _inputTime: moment.Moment;
+  @Input() set inputTime(time: moment.Moment) {
     this._inputTime = time;
     let hour = time.format(this.mode24 ? 'HH' : 'hh');
     hour = hour.startsWith('0') ? hour.substr(1) : hour;

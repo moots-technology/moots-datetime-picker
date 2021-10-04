@@ -10,7 +10,7 @@ $colors: (
     @return map-get($colors, $color-value);
 }
 
-@mixin month-picker($background-color: primary, $color: #fff) {
+@mixin month-picker($background-color: primary, $color: var(--ion-color-light-tint)) {
     .month-packer-item {
         &.this-month button {
             border: 1px solid bindColors($background-color);

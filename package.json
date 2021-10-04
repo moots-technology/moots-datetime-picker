@@ -1,89 +1,92 @@
 {
-  "name": "moots-datetime-picker",
-  "version": "0.3.1",
-  "description": "Combination of a calendar datepicker and clock timepicker into one component for ionic 4.",
-  "author": "run-e software",
-  "repository": "github:moots-technology/moots-datetime-picker",
-  "license": "MIT",
-  "keywords": [
-    "ionic",
-    "calendar",
-    "datepicker",
-    "timepicker",
-    "clock"
-  ],
-  "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "test-headless": "ng test --browsers=ChromeHeadlessNoSandbox --watch=false",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
-    "packagr": "ng-packagr -p package.json"
-  },
-  "devDependencies": {
-    "@angular-devkit/architect": "^0.1202.5",
-    "@angular-devkit/build-angular": "^12.2.5",
-    "@angular-devkit/core": "^12.2.5",
-    "@angular-devkit/schematics": "^12.2.5",
-    "@angular/animations": "^12.2.5",
-    "@angular/cdk": "^12.2.5",
-    "@angular/cli": "^12.2.5",
-    "@angular/common": "^12.2.5",
-    "@angular/compiler": "^12.2.5",
-    "@angular/compiler-cli": "^12.2.5",
-    "@angular/core": "^12.2.5",
-    "@angular/flex-layout": "^12.0.0-beta.34",
-    "@angular/forms": "^12.2.5",
-    "@angular/platform-browser": "^12.2.5",
-    "@angular/platform-browser-dynamic": "^12.2.5",
-    "@angular/router": "^12.2.5",
-    "@ionic/angular": "^4.11.9",
-    "@ionic/angular-toolkit": "^4.0.0",
-    "@types/jasmine": "~3.6.0",
-    "@types/jasminewd2": "~2.0.8",
-    "@types/node": "^12.11.1",
-    "codelyzer": "^6.0.0",
-    "core-js": "^3.6.4",
-    "ionic-mocks": "^1.3.0",
-    "jasmine-core": "~3.6.0",
-    "jasmine-spec-reporter": "~5.0.0",
-    "karma": "~6.3.4",
-    "karma-chrome-launcher": "~3.1.0",
-    "karma-coverage-istanbul-reporter": "~3.0.2",
-    "karma-jasmine": "~4.0.0",
-    "karma-jasmine-html-reporter": "^1.5.0",
-    "moment": "^2.24.0",
-    "ng-packagr": "^12.2.1",
-    "protractor": "~7.0.0",
-    "puppeteer": "^2.0.0",
-    "rxjs": "6.6.7",
-    "rxjs-compat": "^6.5.4",
-    "ts-node": "~8.4.1",
-    "tslint": "~6.1.0",
-    "tslint-ionic-rules": "~0.0.21",
-    "typescript": "4.3.5",
-    "zone.js": "~0.11.4"
-  },
-  "peerDependencies": {
-    "@angular/cdk": "^12.2.5",
-    "@angular/flex-layout": "^12.0.0-beta.34",
-    "moment": "^2.24.0"
-  },
-  "$schema": "./node_modules/ng-packagr/package.schema.json",
-  "ngPackage": {
-    "lib": {
-      "entryFile": "src/moots-picker/index.ts",
-      "styleIncludePaths": [
-        ""
-      ],
-      "umdModuleIds": {
-        "moment": "moment"
-      }
+    "name": "moots-datetime-picker",
+    "version": "0.3.2-0",
+    "description": "Combination of a calendar datepicker and clock timepicker into one component for ionic 4.",
+    "author": "run-e software",
+    "repository": "github:moots-technology/moots-datetime-picker",
+    "license": "MIT",
+    "keywords": [
+        "ionic",
+        "calendar",
+        "datepicker",
+        "timepicker",
+        "clock"
+    ],
+    "scripts": {
+        "ng": "ng",
+        "start": "ng serve",
+        "build": "ng build",
+        "test": "ng test",
+        "test-headless": "ng test --browsers=ChromeHeadlessNoSandbox --watch=false",
+        "lint": "ng lint",
+        "e2e": "ng e2e",
+        "packagr": "ng-packagr -p package.json"
+    },
+    "devDependencies": {
+        "@angular-devkit/build-angular": "^12.2.5",
+        "@angular-devkit/core": "^12.2.5",
+        "@angular-devkit/schematics": "^12.2.5",
+        "@angular/animations": "^12.2.5",
+        "@angular/cdk": "^12.2.5",
+        "@angular/cli": "^12.2.5",
+        "@angular/common": "^12.2.5",
+        "@angular/compiler": "^12.2.5",
+        "@angular/compiler-cli": "^12.2.5",
+        "@angular/core": "^12.2.5",
+        "@angular/flex-layout": "^12.0.0-beta.34",
+        "@angular/forms": "^12.2.5",
+        "@angular/platform-browser": "^12.2.5",
+        "@angular/platform-browser-dynamic": "^12.2.5",
+        "@angular/router": "^12.2.5",
+        "@ionic/angular": "^5.5.2",
+        "@ionic/angular-toolkit": "^4.0.0",
+        "@types/jasmine": "~3.6.0",
+        "@types/jasminewd2": "~2.0.3",
+        "@types/node": "^12.11.1",
+        "codelyzer": "^6.0.0",
+        "core-js": "^3.6.4",
+        "jasmine-core": "~3.6.0",
+        "jasmine-spec-reporter": "~5.0.0",
+        "karma": "~6.3.4",
+        "karma-chrome-launcher": "~3.1.0",
+        "karma-coverage-istanbul-reporter": "~3.0.2",
+        "karma-jasmine": "~4.0.0",
+        "karma-jasmine-html-reporter": "~1.5.0",
+        "moment": "^2.24.0",
+        "ng-packagr": "^12.2.1",
+        "protractor": "~7.0.0",
+        "puppeteer": "^2.0.0",
+        "ts-node": "~8.4.1",
+        "tslint": "~6.1.0",
+        "typescript": "4.3.5",
+        "zone.js": "~0.11.4"
+    },
+    "peerDependencies": {
+        "@angular/cdk": "^12.2.5",
+        "@angular/flex-layout": "^12.0.0-beta.34",
+        "moment": "^2.24.0"
+    },
+    "$schema": "./node_modules/ng-packagr/package.schema.json",
+    "ngPackage": {
+        "lib": {
+            "entryFile": "src/moots-picker/index.ts",
+            "umdModuleIds": {
+                "@angular/cdk": "ng.cdk",
+                "@angular/flex-layout": "ng.flex-layout",
+                "moment": "moment",
+                "@ionic/angular": "ionic.ng"
+            },
+            "styleIncludePaths": [
+                ""
+            ]
+        },
+        "allowedNonPeerDependencies": [
+            "@angular/cdk",
+            "@angular/flex-layout",
+            "moment"
+        ]
+    },
+    "dependencies": {
+        "tslib": "^2.0.0"
     }
-  },
-  "dependencies": {
-    "tslib": "^2.0.0"
-  }
 }

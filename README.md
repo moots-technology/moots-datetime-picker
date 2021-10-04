@@ -60,7 +60,7 @@ Please find below an example as a quick start guide to get the picker running.
 
 ```ts
 export class DemoModalBasicComponent {
-    date: momentNs.Moment = moment();
+    date: moment.Moment = moment();
     dateRange = {
         from: this.date,
         to: this.date

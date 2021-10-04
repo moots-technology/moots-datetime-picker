@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import * as momentNs from 'moment';
+import * as moment from 'moment';
 
-const moment = momentNs;
+
 
 import { CalendarDay, CalendarMonth, CalendarOriginal, CalendarResult, DayConfig, GlobalPickState, PickMode, PickerModalOptions } from '../calendar.model';
 import { defaults } from '../config';
@@ -232,7 +232,7 @@ export class CalendarService {
     return _array;
   }
 
-  wrapResult(original: CalendarDay[], times: momentNs.Moment[], pickMode: PickMode) {
+  wrapResult(original: CalendarDay[], times: moment.Moment[], pickMode: PickMode) {
     const secondIndex = original[1] ? 1 : 0;
     let result: any;
     switch (pickMode) {

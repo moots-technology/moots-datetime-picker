@@ -1,5 +1,5 @@
 import { AnimationBuilder } from '@ionic/core';
-import * as momentNs from 'moment';
+import * as moment from 'moment';
 
 export enum GlobalPickState {
   BEGIN_DATE,
@@ -18,7 +18,7 @@ export enum PickMode {
 
 export interface CalendarOriginal {
   time: number;
-  date: momentNs.Moment;
+  date: moment.Moment;
   year: number;
   month: number;
   firstWeek: number;
@@ -50,7 +50,7 @@ export class CalendarMonth {
 }
 
 export interface DayConfig {
-  date: momentNs.Moment;
+  date: moment.Moment;
   marked?: boolean;
   disable?: boolean;
   title?: string;
@@ -77,10 +77,10 @@ export interface PickerModalOptions extends CalendarOptions {
   doneIcon?: boolean;
   canBackwardsSelected?: boolean;
   title?: string;
-  defaultScrollTo?: momentNs.Moment;
-  defaultDate?: momentNs.Moment;
-  defaultDates?: momentNs.Moment[];
-  defaultDateRange?: { from: momentNs.Moment; to?: momentNs.Moment } | undefined;
+  defaultScrollTo?: moment.Moment;
+  defaultDate?: moment.Moment;
+  defaultDates?: moment.Moment[];
+  defaultDateRange?: { from: moment.Moment; to?: moment.Moment } | undefined;
   step?: number;
   changeListener?: (data: any) => any;
   locale?: string;
@@ -98,8 +98,8 @@ export interface TapticConfig {
 }
 
 export interface CalendarOptions {
-  from?: momentNs.Moment;
-  to?: momentNs.Moment;
+  from?: moment.Moment;
+  to?: moment.Moment;
   pickMode?: PickMode;
   weekStart?: number;
   disableWeeks?: number[];

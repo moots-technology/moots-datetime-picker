@@ -1,8 +1,8 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ModalController } from '@ionic/angular';
-import * as momentNs from 'moment';
-const moment = momentNs;
+import * as moment from 'moment';
+
 
 import { DemoModalBasicComponent } from './modal-basic';
 

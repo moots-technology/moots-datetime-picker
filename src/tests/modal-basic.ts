@@ -1,9 +1,9 @@
 import { Component, ElementRef } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { NavParamsMock } from 'ionic-mocks';
-import * as momentNs from 'moment';
+import * as moment from 'moment';
 
-const moment = momentNs;
+
 
 import { PickMode, PickerModal, PickerModalOptions } from '../moots-picker';
 import { CalendarService } from '../moots-picker/services/calendar.service';
@@ -20,7 +20,7 @@ import { CDRefMock, ModalCtrlMock, RendererMock } from './test-mocks';
 })
 /** Creates and opens a basic modal picker to be tested */
 export class DemoModalBasicComponent {
-  currentDate: momentNs.Moment = moment();
+  currentDate: moment.Moment = moment();
   dateRange = {
     from: this.currentDate,
     to: this.currentDate,
