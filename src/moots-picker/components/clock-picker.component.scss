@@ -22,7 +22,7 @@
   margin: -0.75rem;
   width: 3rem;
   height: 3rem;
-  color: var(--ion-color-light-tint) !important;
+  color: var(--ion-color-primary-contrast) !important;
   overflow-wrap: normal;
   overflow: visible;
 }
@@ -68,7 +68,7 @@ div.toolbar-background {
 .minutes-container {
     @include on-circle($item-count: 12, $circle-size: 20em, $item-size: 1.75em);
     margin: 1em auto 0;
-    background-color: #e2f6ff;
+    background-color: var(--ion-color-light-shade);
 
     .clock-digit {
         display: block;
@@ -81,7 +81,7 @@ div.toolbar-background {
         font-style: normal;
         line-height: 1.21;
         letter-spacing: 0.34px;
-        color: #000000;
+        color: var(--ion-color-dark-shade);
         z-index: 5;
         cursor: pointer;
     }
@@ -90,7 +90,7 @@ div.toolbar-background {
 .hours-12-container {
     @include on-circle($item-count: 12, $circle-size: 20em, $item-size: 1.75em);
     margin: 1em auto 0;
-    background-color: #e2f6ff;
+    background-color: var(--ion-color-light-shade);
 
     .clock-digit {
         display: block;
@@ -103,7 +103,7 @@ div.toolbar-background {
         font-style: normal;
         line-height: 1.21;
         letter-spacing: 0.34px;
-        color: #000000;
+        color: var(--ion-color-dark-shade);
         z-index: 5;
         cursor: pointer;
     }
