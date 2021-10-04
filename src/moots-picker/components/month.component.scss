@@ -6,7 +6,7 @@ $colors: (
     dark: var(--ion-color-dark)
 );
 
-$disabled-color: var(--ion-color-light-shade);
+$disabled-color: var(--ion-color-medium-tint);
 
 @function bindColors($color-value) {
     @return map-get($colors, $color-value);
