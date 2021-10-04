@@ -6,7 +6,7 @@ $colors: (
     dark: var(--ion-color-dark)
 );
 
-$disabled-color: rgba(0, 0, 0, 0.25);
+$disabled-color: var(--ion-color-light-shade);
 
 @function bindColors($color-value) {
     @return map-get($colors, $color-value);
@@ -36,7 +36,7 @@ $disabled-color: rgba(0, 0, 0, 0.25);
     transition-timing-function: $args;
 }
 
-@mixin month-color($background-color: primary, $color: #fff) {
+@mixin month-color($background-color: primary, $color: var(--ion-color-primary-contrast)) {
     button.days-btn small,
     .days .marked p,
     .days .today p {
@@ -239,7 +239,7 @@ $disabled-color: rgba(0, 0, 0, 0.25);
     button.days-btn p {
         margin: 0;
         font-size: 1.25em;
-        color: #333;
+        color: var(--ion-color-dark-tint);
         text-align: center;
     }
     button.days-btn[disabled] p {

@@ -22,13 +22,13 @@
     display: inline-block;
     width: 100%;
     padding-bottom: 1em;
-    border-bottom: 1px solid #f1f1f1;
+    border-bottom: 1px solid var(--ion-color-light-shade);
   }
 
   .month-title {
     font-size: 1.0rem;
     font-weight: 500;
-    color: black;
+    color: var(--ion-color-dark-shade);
     font-weight: bold;
   }
 
@@ -116,7 +116,7 @@
     font-style: normal;
     line-height: 1.24;
     letter-spacing: 0.36px;
-    color: #000000;
+    color: var(--ion-color-dark-shade);
   }
 
   .date-label-active {
@@ -126,7 +126,7 @@
     font-style: normal;
     line-height: 1.33;
     letter-spacing: -0.24px;
-    color: #000000;
+    color: var(--ion-color-dark-shade);
   }
 
   .date-label {
@@ -136,11 +136,11 @@
     font-style: normal;
     line-height: 1.33;
     letter-spacing: -0.24px;
-    color: #9b9b9b;
+    color: var(--ion-color-medium);
   }
 
   .date-label.selected {
-    color: #000000;
+    color: var(--ion-color-dark-shade);
   }
 
   .time-label {
@@ -150,10 +150,10 @@
     font-style: normal;
     line-height: 0.81;
     letter-spacing: 0.55px;
-    color: #9b9b9b;
+    color: var(--ion-color-medium);
 
     .selected {
-        color: #000000;
+        color: var(--ion-color-dark-shade);
     }
 
     div {
@@ -167,7 +167,7 @@
     height: 148px;
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;
-    background-color: #ffffff;
+    background-color: var(--ion-color-light-tint);
     border: solid 2px transparent;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
     cursor: pointer;
@@ -178,14 +178,14 @@
     height: 148px;
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
-    background-color: #ffffff;
+    background-color: var(--ion-color-light-tint);
     border: solid 2px transparent;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
     cursor: pointer;
   }
 
   .header-container {
-    background: linear-gradient(0deg, #ffffff 50%, #1490e1 50%);
+    background: linear-gradient(0deg, var(--ion-color-light-tint) 50%, #1490e1 50%);
     padding-top: 1rem;
     padding-bottom: 1.25rem;
   }
