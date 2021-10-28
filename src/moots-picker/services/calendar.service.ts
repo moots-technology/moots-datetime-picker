@@ -54,7 +54,7 @@ export class CalendarService {
       weekdays: calendarOptions.weekdays || defaults.WEEKS_FORMAT,
       daysConfig: calendarOptions.daysConfig || _daysConfig,
       disableWeeks: calendarOptions.disableWeeks || _disableWeeks,
-      showAdjacentMonthDay: calendarOptions.showAdjacentMonthDay || true,
+      showAdjacentMonthDay: calendarOptions.showAdjacentMonthDay && true,
       locale: calendarOptions.closeLabel || 'en',
       startLabel: calendarOptions.closeLabel || 'Start',
       endLabel: calendarOptions.closeLabel || 'End',
