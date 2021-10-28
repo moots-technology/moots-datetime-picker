@@ -1,15 +1,13 @@
 import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import * as moment from 'moment';
-
-
+import { DateTime } from 'luxon';
 
 import { CalendarComponentOptions } from '../moots-picker';
 
 @Component({
   selector: 'demo-options',
   template: `
-    <hr>
+    <hr />
     <h3 style="text-align: center;">options</h3>
     <ion-list>
       <ion-item>
@@ -24,9 +22,7 @@ import { CalendarComponentOptions } from '../moots-picker';
       </ion-item>
       <ion-item>
         <ion-label>disableWeeks</ion-label>
-        <ion-select [(ngModel)]="_disableWeeks"
-                    (ngModelChange)="_changeDisableWeeks($event)"
-                    multiple="true">
+        <ion-select [(ngModel)]="_disableWeeks" (ngModelChange)="_changeDisableWeeks($event)" multiple="true">
           <ion-select-option color="0">0</ion-select-option>
           <ion-select-option color="1">1</ion-select-option>
           <ion-select-option color="2">2</ion-select-option>
@@ -53,13 +49,9 @@ import { CalendarComponentOptions } from '../moots-picker';
       </ion-item>
     </ion-list>
 
-    <moots-picker-calendar [(ngModel)]="date"
-                  (onChange)="onChange($event)"
-                  [options]="options"
-                  type="string"
-                  format="YYYY-MM-DD">
+    <moots-picker-calendar [(ngModel)]="date" (onChange)="onChange($event)" [options]="options" type="string" format="yyyy-MM-DD">
     </moots-picker-calendar>
-  `,
+  `
 })
 export class DemoOptionsComponent {
   _color = 'primary';
@@ -69,8 +61,8 @@ export class DemoOptionsComponent {
   _weekStart = 0;
   date = '2018-01-01';
   options: CalendarComponentOptions = {
-    from: moment(new Date(2000, 0, 1)),
-    disableWeeks: [...this._disableWeeks],
+    from: DateTime.fromJSDate(new Date(2000, 0, 1)).toMillis(),
+    disableWeeks: [...this._disableWeeks]
   };
 
   constructor(public modalCtrl: ModalController) {}
@@ -82,35 +74,35 @@ export class DemoOptionsComponent {
   _changeColors(color: string) {
     this.options = {
       ...this.options,
-      color,
+      color
     };
   }
 
   _changeShowToggleButtons(showToggleButtons: boolean) {
     this.options = {
       ...this.options,
-      showToggleButtons,
+      showToggleButtons
     };
   }
 
   _changeShowMonthPicker(showMonthPicker: boolean) {
     this.options = {
       ...this.options,
-      showMonthPicker,
+      showMonthPicker
     };
   }
 
   _changeDisableWeeks(disableWeeks: string[]) {
     this.options = {
       ...this.options,
-      disableWeeks: disableWeeks.map(e => parseInt(e, 10)),
+      disableWeeks: disableWeeks.map((e) => parseInt(e, 10))
     };
   }
 
   _changeWeekStart(weekStart: string) {
     this.options = {
       ...this.options,
-      weekStart: parseInt(weekStart, 10),
+      weekStart: parseInt(weekStart, 10)
     };
   }
 }

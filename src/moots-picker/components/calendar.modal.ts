@@ -1,15 +1,13 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostBinding, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { IonContent, ModalController, NavParams } from '@ionic/angular';
-import * as moment from 'moment';
-
-import { CalendarDay, CalendarMonth, GlobalPickState, PickMode, PickerModalOptions } from '../calendar.model';
+import { DateTime } from 'luxon';
+import { CalendarDay, CalendarMonth, GlobalPickState, PickMode, PickerModalOptions, PickerModalOptionsSafe } from '../calendar.model';
 import { CalendarService } from '../services/calendar.service';
 
 import { ClockPickState, ClockPickerComponent } from './clock-picker.component';
 
 const NUM_OF_MONTHS_TO_CREATE = 2;
-
 
 @Component({
   selector: 'moots-picker-modal',
@@ -31,31 +29,25 @@ const NUM_OF_MONTHS_TO_CREATE = 2;
       transition('closed => open', [animate('0.5s')])
     ]),
     trigger('enterAnimation', [
-      transition(':enter', [
-        style({ opacity: 0 }),
-        animate('500ms', style({ opacity: 1 }))
-      ]),
-      transition(':leave', [
-        style({ opacity: 1 }),
-        animate('400ms', style({ opacity: 0 }))
-      ])
+      transition(':enter', [style({ opacity: 0 }), animate('500ms', style({ opacity: 1 }))]),
+      transition(':leave', [style({ opacity: 1 }), animate('400ms', style({ opacity: 0 }))])
     ]),
     trigger('highlight', [
       state(
         'active',
         style({
           'box-shadow': '0 5px 15px 0 rgba(0, 0, 0, 0.5)',
-          border: 'solid 2px #f8e71c',
+          border: 'solid 2px #f8e71c'
         })
       ),
       state(
         'inactive',
         style({
           'box-shadow': '0 1px 3px 0 rgba(0, 0, 0, 0.5)',
-          border: 'solid 2px transparent',
+          border: 'solid 2px transparent'
         })
       ),
-      transition('* => *', [animate('0.2s')]),
+      transition('* => *', [animate('0.2s')])
     ])
   ],
   styleUrls: ['./calendar.modal.scss'],
@@ -79,14 +71,14 @@ export class PickerModal implements OnInit, AfterViewInit {
   options: PickerModalOptions;
 
   datesTemp: CalendarDay[] = [undefined, undefined];
-  timesTemp: moment.Moment[] = [undefined, undefined];
+  timesTemp: DateTime[] = [undefined, undefined];
   calendarMonths: CalendarMonth[];
   step: number;
   showYearPicker: boolean;
   year: number;
   years: number[];
   _scrollLock = true;
-  _d: PickerModalOptions;
+  modalOptions: PickerModalOptionsSafe;
   actualFirstTime: number;
 
   pickState = GlobalPickState.BEGIN_DATE;
@@ -99,52 +91,68 @@ export class PickerModal implements OnInit, AfterViewInit {
     public modalCtrl: ModalController,
     public ref: ChangeDetectorRef,
     public calSvc: CalendarService
-  ) { }
+  ) {}
 
   localeUses24HourTime(locale: string) {
-    return new Intl.DateTimeFormat(locale, {
-      hour: 'numeric'
-    }).formatToParts(new Date(2020, 0, 1, 13)).find(part => part.type === 'hour').value.length === 2;
+    return (
+      new Intl.DateTimeFormat(locale, {
+        hour: 'numeric'
+      })
+        .formatToParts(new Date(2020, 0, 1, 13))
+        .find((part) => part.type === 'hour').value.length === 2
+    );
   }
 
   is24Hours() {
-    return this._d.locale && this.localeUses24HourTime(this._d.locale);
+    return this.modalOptions.locale && this.localeUses24HourTime(this.modalOptions.locale);
   }
 
   onSelectChange(cstate: ClockPickState) {
     this.clockPickState = cstate;
   }
 
-  onClockValue(time: moment.Moment) {
+  onClockValue(time: DateTime) {
     if (this.isBegin(this.pickState)) {
       this.timesTemp[0] = time;
     } else {
       this.timesTemp[1] = time;
     }
 
+    if (this.clockPickState == ClockPickState.HOUR) {
+      return;
+    }
+
     this.preventInvalidRange();
 
     switch (this.pickState) {
-      case (GlobalPickState.BEGIN_HOUR) : this.setPickState(GlobalPickState.BEGIN_MINUTE); break;
-      case (GlobalPickState.BEGIN_MINUTE) : this.setPickState(GlobalPickState.END_DATE); break;
-      case (GlobalPickState.END_HOUR) : this.setPickState(GlobalPickState.END_MINUTE); break;
+      case GlobalPickState.BEGIN_HOUR:
+        this.setPickState(GlobalPickState.BEGIN_MINUTE);
+        break;
+      case GlobalPickState.BEGIN_MINUTE:
+        this.setPickState(GlobalPickState.END_DATE);
+        break;
+      case GlobalPickState.END_HOUR:
+        this.setPickState(GlobalPickState.END_MINUTE);
+        break;
     }
   }
 
   preventInvalidRange() {
-    if (!this.datesTemp[1] || moment(this.datesTemp[0].time).day() === moment(this.datesTemp[1].time).day()) {
+    if (!this.datesTemp[1] || DateTime.fromMillis(this.datesTemp[0].time).day === DateTime.fromMillis(this.datesTemp[1].time).day) {
       if (this.timesTemp[0].valueOf() > this.timesTemp[1].valueOf()) {
         if (this.isBegin(this.pickState)) {
-          this.timesTemp[1] = this.timesTemp[0].clone().add(15, 'minutes');
+          this.timesTemp[1] = this.timesTemp[0].plus({ minutes: 15 });
         } else {
-          const ampm = this.timesTemp[1].format('a');
+          const ampm = this.timesTemp[1].toFormat('a');
           if (this.is24Hours() || ampm === 'pm') {
-            this.timesTemp[0] = this.timesTemp[1].clone().subtract(15, 'minutes');
+            this.timesTemp[0] = this.timesTemp[1].minus({ minutes: 15 });
           } else {
-            const f = this.timesTemp[1].format('hh:mm a');
-            const temp = moment(f.replace(ampm, 'pm'), 'hh:mm a');
-            this.timesTemp[1].hours(temp.hours());
-            this.timesTemp[1].minutes(temp.minutes());
+            const f = this.timesTemp[1].toFormat('hh:mm a');
+            const temp = DateTime.fromFormat(f.replace(ampm, 'pm'), 'hh:mm a');
+            console.log(temp);
+
+            // this.timesTemp[1].hours(temp.hours());
+            // this.timesTemp[1].minutes(temp.minutes());
           }
         }
       }
@@ -155,20 +163,19 @@ export class PickerModal implements OnInit, AfterViewInit {
     if (!this.datesTemp[index]) {
       index--;
     }
-    return moment(this.datesTemp[index].time).format('LL');
+    return DateTime.fromMillis(this.datesTemp[index].time).toLocaleString(DateTime.DATE_FULL);
   }
 
   getTimeHours(index: number) {
-    return this.timesTemp[index]
-      .format(this.is24Hours() ? 'HH' : 'hh');
+    return this.timesTemp[index].toFormat(this.is24Hours() ? 'HH' : 'hh');
   }
 
   getTimeMinutes(index: number) {
-    return this.timesTemp[index].format('mm');
+    return this.timesTemp[index].toFormat('mm');
   }
 
   getAmPm(index: number) {
-    return this.timesTemp[index].format('A');
+    return this.timesTemp[index].toFormat('a');
   }
 
   setPickState(pstate: GlobalPickState) {
@@ -182,7 +189,7 @@ export class PickerModal implements OnInit, AfterViewInit {
 
   onClickStartDate() {
     this.setPickState(GlobalPickState.BEGIN_DATE);
-    this.scrollToDate(moment(this.datesTemp[0].time));
+    this.scrollToDate(DateTime.fromMillis(this.datesTemp[0].time));
   }
 
   onClickStartHour($event: Event) {
@@ -201,7 +208,7 @@ export class PickerModal implements OnInit, AfterViewInit {
 
   onClickEndDate() {
     this.setPickState(GlobalPickState.END_DATE);
-    this.scrollToDate(moment(this.datesTemp[0].time));
+    this.scrollToDate(DateTime.fromMillis(this.datesTemp[0].time));
   }
 
   onClickEndHour($event: Event) {
@@ -225,27 +232,26 @@ export class PickerModal implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.findCssClass();
-    if (this._d.canBackwardsSelected) {
+    if (this.modalOptions.canBackwardsSelected) {
       this.backwardsMonth();
     }
   }
 
   init(): void {
-    this._d = this.calSvc.safeOpt(this.options);
-    this._d.showAdjacentMonthDay = false;
-    this.step = this._d.step;
+    this.modalOptions = this.calSvc.safeOpt(this.options);
+    this.modalOptions.showAdjacentMonthDay = false;
+    this.step = this.modalOptions.step;
     if (this.step > this.calSvc.DEFAULT_STEP) {
       this.step = this.calSvc.DEFAULT_STEP;
     }
-    moment.locale(this._d.locale);
 
     this.calendarMonths = this.calSvc.createMonthsByPeriod(
-      moment(this._d.from).valueOf(),
-      this.findInitMonthNumber(this._d.defaultScrollTo) + this.step,
-      this._d
+      this.modalOptions.from.valueOf(),
+      this.findInitMonthNumber(this.modalOptions.defaultScrollTo) + this.step,
+      this.modalOptions
     );
 
-    this.setPickState(this._d.pickState);
+    this.setPickState(this.modalOptions.pickState);
   }
 
   initDefaultDate(): void {
@@ -254,7 +260,7 @@ export class PickerModal implements OnInit, AfterViewInit {
       // defaultDate,
       defaultDateRange,
       defaultDates
-    } = this._d;
+    } = this.modalOptions;
     switch (pickMode) {
       case PickMode.SINGLE:
         // if (defaultDate) {
@@ -274,51 +280,32 @@ export class PickerModal implements OnInit, AfterViewInit {
         break;
       case PickMode.RANGE:
         if (defaultDateRange) {
-
           if (defaultDateRange.from) {
-            this.datesTemp[0] = this.calSvc.createCalendarDay(
-              this._getDayTime(defaultDateRange.from),
-              this._d
-            );
-            this.timesTemp[0] = moment(defaultDateRange.from);
+            this.datesTemp[0] = this.calSvc.createCalendarDay(this._getDayTime(defaultDateRange.from), this.modalOptions);
+            this.timesTemp[0] = defaultDateRange.from;
           }
           if (defaultDateRange.to) {
-            this.datesTemp[1] = this.calSvc.createCalendarDay(
-              this._getDayTime(defaultDateRange.to),
-              this._d
-            );
-            if ((moment(defaultDateRange.from).valueOf() >= moment(defaultDateRange.to).valueOf())
-            ) {
+            this.datesTemp[1] = this.calSvc.createCalendarDay(this._getDayTime(defaultDateRange.to), this.modalOptions);
+            if (defaultDateRange.from >= defaultDateRange.to) {
               this.datesTemp[1] = undefined;
-              this.timesTemp[1] = this.timesTemp[0]
-                .clone()
-                .add(30, 'minutes');
+              this.timesTemp[1] = this.timesTemp[0].plus({
+                minutes: 30
+              });
             } else {
-              this.timesTemp[1] = moment(defaultDateRange.to);
+              this.timesTemp[1] = defaultDateRange.to;
             }
           }
         }
-        if (this.timesTemp[0].minutes() % 5 > 0) {
-          this.timesTemp[0].minutes(
-            this.timesTemp[0].minutes() -
-            (this.timesTemp[0].minutes() % 5)
-          );
+        if (this.timesTemp[0].minute % 5 > 0) {
+          this.timesTemp[0] = this.timesTemp[0].set({ minute: this.timesTemp[0].minute - (this.timesTemp[0].minute % 5) });
         }
-        if (this.timesTemp[1].minutes() % 5 > 0) {
-          this.timesTemp[1].minutes(
-            this.timesTemp[1].minutes() -
-            (this.timesTemp[1].minutes() % 5)
-          );
+        if (this.timesTemp[1].minute % 5 > 0) {
+          this.timesTemp[1] = this.timesTemp[1].set({ minute: this.timesTemp[1].minute - (this.timesTemp[1].minute % 5) });
         }
         break;
       case PickMode.MULTI:
         if (defaultDates && defaultDates.length) {
-          this.datesTemp = defaultDates.map(e =>
-            this.calSvc.createCalendarDay(
-              this._getDayTime(e),
-              this._d
-            )
-          );
+          this.datesTemp = defaultDates.map((e) => this.calSvc.createCalendarDay(this._getDayTime(e), this.modalOptions));
         }
         break;
       default:
@@ -327,14 +314,11 @@ export class PickerModal implements OnInit, AfterViewInit {
   }
 
   findCssClass(): void {
-    const { cssClass } = this._d;
+    const { cssClass } = this.modalOptions;
     if (cssClass) {
       cssClass.split(' ').forEach((_class: string) => {
         if (_class.trim() !== '') {
-          this._renderer.addClass(
-            this._elementRef.nativeElement,
-            _class
-          );
+          this._renderer.addClass(this._elementRef.nativeElement, _class);
         }
       });
     }
@@ -348,7 +332,7 @@ export class PickerModal implements OnInit, AfterViewInit {
       this.datesTemp[1] = data[1];
     }
 
-    this._d.tapticConf.onCalendarSelect();
+    this.modalOptions.tapticConf.onCalendarSelect();
     this.ref.detectChanges();
 
     // if (pickMode !== pickModes.MULTI && autoDone && this.canDone()) {
@@ -356,24 +340,24 @@ export class PickerModal implements OnInit, AfterViewInit {
     // }
 
     this.repaintDOM();
-    if (this.options.changeListener) {
-      this.options.changeListener(data);
+    if (this.modalOptions.changeListener) {
+      this.modalOptions.changeListener(data);
     }
 
     if (this.canDone()) {
       if (this.pickState === GlobalPickState.END_DATE) {
         setTimeout(() => {
-          if (!this._d.fullday) {
+          if (!this.modalOptions.fullday) {
             this.onClickEndHour(undefined);
           }
         }, 200);
       } else {
         setTimeout(() => {
-            if (this._d.fullday) {
-                this.onClickEndDate();
-            } else {
-                this.onClickStartHour(undefined);
-            }
+          if (this.modalOptions.fullday) {
+            this.onClickEndDate();
+          } else {
+            this.onClickStartHour(undefined);
+          }
         }, 200);
       }
     }
@@ -384,12 +368,9 @@ export class PickerModal implements OnInit, AfterViewInit {
   }
 
   done(): void {
-    const { pickMode } = this._d;
+    const { pickMode } = this.modalOptions;
 
-    this.modalCtrl.dismiss(
-      this.calSvc.wrapResult(this.datesTemp, this.timesTemp, pickMode),
-      'done'
-    );
+    this.modalCtrl.dismiss(this.calSvc.wrapResult(this.datesTemp, this.timesTemp, pickMode), 'done');
   }
 
   canDone(): boolean {
@@ -399,26 +380,15 @@ export class PickerModal implements OnInit, AfterViewInit {
   nextMonth(event: any): void {
     const len = this.calendarMonths.length;
     const final = this.calendarMonths[len - 1];
-    const nextTime = moment(final.original.time)
-      .add(1, 'M')
-      .valueOf();
-    const rangeEnd = this._d.to ? moment(this._d.to).subtract(1, 'M') : 0;
+    const nextTime = DateTime.fromMillis(final.original.time).plus({ months: 1 }).valueOf();
+    const rangeEnd = this.modalOptions.to ? this.modalOptions.to.minus({ months: 1 }) : 0;
 
-    if (
-      len <= 0 ||
-      (rangeEnd !== 0 && moment(final.original.time).isAfter(rangeEnd))
-    ) {
+    if (len <= 0 || (rangeEnd !== 0 && DateTime.fromMillis(final.original.time) > rangeEnd)) {
       event.target.disabled = true;
       return;
     }
 
-    this.calendarMonths.push(
-      ...this.calSvc.createMonthsByPeriod(
-        nextTime,
-        NUM_OF_MONTHS_TO_CREATE,
-        this._d
-      )
-    );
+    this.calendarMonths.push(...this.calSvc.createMonthsByPeriod(nextTime, NUM_OF_MONTHS_TO_CREATE, this.modalOptions));
     event.target.complete();
     this.repaintDOM();
   }
@@ -427,30 +397,22 @@ export class PickerModal implements OnInit, AfterViewInit {
     const first = this.calendarMonths[0];
 
     if (first.original.time <= 0) {
-      this._d.canBackwardsSelected = false;
+      this.modalOptions.canBackwardsSelected = false;
       return;
     }
 
-    const firstTime = (this.actualFirstTime = moment(first.original.time)
-      .subtract(NUM_OF_MONTHS_TO_CREATE, 'M')
+    const firstTime = (this.actualFirstTime = DateTime.fromMillis(first.original.time)
+      .minus({ months: NUM_OF_MONTHS_TO_CREATE })
       .valueOf());
 
-    this.calendarMonths.unshift(
-      ...this.calSvc.createMonthsByPeriod(
-        firstTime,
-        NUM_OF_MONTHS_TO_CREATE,
-        this._d
-      )
-    );
+    this.calendarMonths.unshift(...this.calSvc.createMonthsByPeriod(firstTime, NUM_OF_MONTHS_TO_CREATE, this.modalOptions));
     this.ref.detectChanges();
     this.repaintDOM();
   }
 
-  scrollToDate(date: moment.Moment): void {
+  scrollToDate(date: DateTime): void {
     const defaultDateIndex = this.findInitMonthNumber(date);
-    const monthElement = this.monthsEle.nativeElement.children[
-      `month-${defaultDateIndex}`
-    ];
+    const monthElement = this.monthsEle.nativeElement.children[`month-${defaultDateIndex}`];
     const domElemReadyWaitTime = 300;
 
     setTimeout(() => {
@@ -463,22 +425,18 @@ export class PickerModal implements OnInit, AfterViewInit {
   }
 
   scrollToDefaultDate(): void {
-    this.scrollToDate(this._d.defaultScrollTo);
+    this.scrollToDate(this.modalOptions.defaultScrollTo);
   }
 
   onScroll($event: any): void {
-    if (!this._d.canBackwardsSelected) {
+    if (!this.modalOptions.canBackwardsSelected) {
       return;
     }
 
     const { detail } = $event;
 
-    if (
-      detail.scrollTop <= 200 &&
-      detail.velocityY < 0 &&
-      this._scrollLock
-    ) {
-      this.content.getScrollElement().then(scrollElem => {
+    if (detail.scrollTop <= 200 && detail.velocityY < 0 && this._scrollLock) {
+      this.content.getScrollElement().then((scrollElem) => {
         this._scrollLock = !1;
 
         const heightBeforeMonthPrepend = scrollElem.scrollHeight;
@@ -486,15 +444,9 @@ export class PickerModal implements OnInit, AfterViewInit {
         setTimeout(() => {
           const heightAfterMonthPrepend = scrollElem.scrollHeight;
 
-          this.content
-            .scrollByPoint(
-              0,
-              heightAfterMonthPrepend - heightBeforeMonthPrepend,
-              0
-            )
-            .then(() => {
-              this._scrollLock = !0;
-            });
+          this.content.scrollByPoint(0, heightAfterMonthPrepend - heightBeforeMonthPrepend, 0).then(() => {
+            this._scrollLock = !0;
+          });
         }, 180);
       });
     }
@@ -506,7 +458,7 @@ export class PickerModal implements OnInit, AfterViewInit {
    * See for more details: https://github.com/Polymer/polymer/issues/4701
    */
   repaintDOM() {
-    return this.content.getScrollElement().then(scrollElem => {
+    return this.content.getScrollElement().then((scrollElem) => {
       // Update scrollElem to ensure that height of the container changes as Months are appended/prepended
       scrollElem.style.zIndex = '2';
       scrollElem.style.zIndex = 'initial';
@@ -516,30 +468,27 @@ export class PickerModal implements OnInit, AfterViewInit {
     });
   }
 
-  findInitMonthNumber(date: moment.Moment): number {
-    let startDate = this.actualFirstTime
-      ? moment(this.actualFirstTime)
-      : moment(this._d.from);
-    const defaultScrollTo = moment(date);
-    const isAfter: boolean = defaultScrollTo.isAfter(startDate);
+  findInitMonthNumber(date: DateTime): number {
+    let startDate = this.actualFirstTime ? DateTime.fromMillis(this.actualFirstTime) : this.modalOptions.from;
+    const defaultScrollTo = date;
+    const isAfter: boolean = defaultScrollTo > startDate;
     if (!isAfter) {
       return -1;
     }
 
     if (this.showYearPicker) {
-      startDate = moment(new Date(this.year, 0, 1));
+      startDate = DateTime.fromJSDate(new Date(this.year, 0, 1));
     }
 
-    return defaultScrollTo.diff(startDate, 'month');
+    return defaultScrollTo.diff(startDate, 'months').milliseconds;
   }
 
-  _getDayTime(date: any): number {
-    const mom = moment(date);
-    return moment(mom.format('YYYY-MM-DD')).valueOf();
+  _getDayTime(date: DateTime): number {
+    return DateTime.fromFormat(date.toFormat('yyyy-MM-DD'), 'yyyy-MM-DD').valueOf();
   }
 
-  _monthFormat(date: any): string {
-    return moment(date).format(this._d.monthFormat.replace(/y/g, 'Y'));
+  _monthFormat(date: DateTime): string {
+    return date.toFormat(this.modalOptions.monthFormat);
   }
 
   trackByIndex(index: number, momentDate: CalendarMonth): number {
@@ -551,7 +500,7 @@ export class PickerModal implements OnInit, AfterViewInit {
   }
 
   isEnd(pstate: GlobalPickState): boolean {
-    return ! this.isBegin(pstate);
+    return !this.isBegin(pstate);
   }
 
   isDate(pstate: GlobalPickState): boolean {
@@ -559,7 +508,7 @@ export class PickerModal implements OnInit, AfterViewInit {
   }
 
   isTime(pstate: GlobalPickState): boolean {
-    return ! this.isDate(pstate);
+    return !this.isDate(pstate);
   }
 
   isHour(pstate: GlobalPickState): boolean {

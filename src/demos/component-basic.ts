@@ -1,30 +1,28 @@
 import { Component } from '@angular/core';
-import * as moment from 'moment';
+import { DateTime } from 'luxon';
 
 import { CalendarComponentOptions } from '../moots-picker';
 
 @Component({
-    selector: 'demo-component-basic',
-    template: `
-      <hr>
-      <h3 style="text-align: center;">basic</h3>
-      <moots-picker-calendar [(ngModel)]="date"
-                    (onChange)="onChange($event)"
-                    [options]="options"
-                    type="string"
-                    format="YYYY-MM-DD">
-      </moots-picker-calendar>
-    `,
-  })
+  selector: 'demo-component-basic',
+  template: `
+    <hr />
+    <h3 style="text-align: center;">basic</h3>
+    <moots-picker-calendar [(ngModel)]="date" (onChange)="onChange($event)" [options]="options" type="string" format="yyyy-MM-DD">
+    </moots-picker-calendar>
+  `
+})
 export class DemoComponentBasicComponent {
-  date: moment.Moment = moment();
+  date: DateTime = DateTime.now();
   options: CalendarComponentOptions = {
-    from: this.date,
+    from: this.date.toMillis()
   };
 
-  constructor() { /**/ }
+  constructor() {
+    /**/
+  }
 
   onChange($event: any) {
-      console.log($event);
+    console.log($event);
   }
 }

@@ -1,67 +1,98 @@
 <div class="root-container">
   <div class="header-container">
     <div fxLayout="row" fxLayoutAlign="space-around center">
-      <div fxLayout="column" fxLayoutAlign="space-between start" fxFlex="45%" class="begin-container"
-        [@highlight]="isBegin(pickState) ? 'active' : 'inactive'" (click)="onClickStartDate()" [style.height.px]="this._d.fullday ? '101' : '148'">
-        <div class="title-label">{{ this._d.startLabel }}</div>
-        <div class="date-label" [class.selected]="pickState === GlobalPickState.BEGIN_DATE">
-          {{ getDateString(0) }}</div>
-        <div fxLayout="row" fxLayoutAlign="start center" class="time-label" *ngIf="!this._d.fullday">
-          <div [class.selected]="pickState === GlobalPickState.BEGIN_HOUR"
-            (click)="onClickStartHour($event)">{{ getTimeHours(0) }}</div>
+      <div
+        fxLayout="column"
+        fxLayoutAlign="space-between start"
+        fxFlex="45%"
+        class="begin-container"
+        [@highlight]="isBegin(pickState) ? 'active' : 'inactive'"
+        (click)="onClickStartDate()"
+        [style.height.px]="this.modalOptions.fullday ? '101' : '148'"
+      >
+        <div class="title-label">{{ this.modalOptions.startLabel }}</div>
+        <div class="date-label" [class.selected]="pickState === GlobalPickState.BEGIN_DATE">{{ getDateString(0) }}</div>
+        <div fxLayout="row" fxLayoutAlign="start center" class="time-label" *ngIf="!this.modalOptions.fullday">
+          <div [class.selected]="pickState === GlobalPickState.BEGIN_HOUR" (click)="onClickStartHour($event)">{{ getTimeHours(0) }}</div>
           <div>:</div>
-          <div [class.selected]="pickState === GlobalPickState.BEGIN_MINUTE"
-            (click)="onClickStartMin($event)">{{ getTimeMinutes(0) }}</div>
-          <div *ngIf="!is24Hours()" class="ampm-indicator" fxLayoutAlign="center center" (click)="onClickStartHour($event)">{{ getAmPm(0) }}</div>
+          <div [class.selected]="pickState === GlobalPickState.BEGIN_MINUTE" (click)="onClickStartMin($event)">{{ getTimeMinutes(0) }}</div>
+          <div *ngIf="!is24Hours()" class="ampm-indicator" fxLayoutAlign="center center" (click)="onClickStartHour($event)">
+            {{ getAmPm(0) }}
+          </div>
         </div>
       </div>
 
-      <div fxLayout="column" fxLayoutAlign="space-between start" fxFlex="45%" class="end-container"
-        [@highlight]="isEnd(pickState) ? 'active' : 'inactive'" (click)="onClickEndDate()" [style.height.px]="this._d.fullday ? '101' : '148'">
-        <div class="title-label">{{ this._d.endLabel }}</div>
-        <div class="date-label" [class.selected]="pickState === GlobalPickState.END_DATE">{{ getDateString(1) }}
-        </div>
-        <div fxLayout="row" fxLayoutAlign="start center" class="time-label" *ngIf="!this._d.fullday">
-          <div [class.selected]="pickState === GlobalPickState.END_HOUR"
-            (click)="onClickEndHour($event)">{{ getTimeHours(1) }}</div>
+      <div
+        fxLayout="column"
+        fxLayoutAlign="space-between start"
+        fxFlex="45%"
+        class="end-container"
+        [@highlight]="isEnd(pickState) ? 'active' : 'inactive'"
+        (click)="onClickEndDate()"
+        [style.height.px]="this.modalOptions.fullday ? '101' : '148'"
+      >
+        <div class="title-label">{{ this.modalOptions.endLabel }}</div>
+        <div class="date-label" [class.selected]="pickState === GlobalPickState.END_DATE">{{ getDateString(1) }}</div>
+        <div fxLayout="row" fxLayoutAlign="start center" class="time-label" *ngIf="!this.modalOptions.fullday">
+          <div [class.selected]="pickState === GlobalPickState.END_HOUR" (click)="onClickEndHour($event)">{{ getTimeHours(1) }}</div>
           <div>:</div>
-          <div [class.selected]="pickState === GlobalPickState.END_MINUTE"
-            (click)="onClickEndMin($event)">{{ getTimeMinutes(1) }}</div>
-          <div *ngIf="!is24Hours()" class="ampm-indicator" fxLayoutAlign="center center" (click)="onClickEndHour($event)">{{ getAmPm(1) }}</div>
+          <div [class.selected]="pickState === GlobalPickState.END_MINUTE" (click)="onClickEndMin($event)">{{ getTimeMinutes(1) }}</div>
+          <div *ngIf="!is24Hours()" class="ampm-indicator" fxLayoutAlign="center center" (click)="onClickEndHour($event)">
+            {{ getAmPm(1) }}
+          </div>
         </div>
       </div>
-
     </div>
   </div>
 
   <ng-content select="[sub-header]"></ng-content>
 </div>
 
-
 <div *ngIf="isTime(pickState)" style="background-color: var(--ion-color-light-tint); height: 100%">
-  <div [@enterAnimation] style="background-color: var(--ion-color-light-tint); height: 100%; overflow: hidden;">
-    <moots-clock-picker #clockPicker [pickState]="clockPickState" [mode24]="is24Hours()" [tapConf]="_d.tapticConf"
-      (valueSelected)="onClockValue($event)" (selectChange)="onSelectChange($event)"
-      [inputTime]="isBegin(pickState) ? timesTemp[0] : timesTemp[1]"></moots-clock-picker>
+  <div [@enterAnimation] style="background-color: var(--ion-color-light-tint); height: 100%; overflow: hidden">
+    <moots-clock-picker
+      #clockPicker
+      [pickState]="clockPickState"
+      [mode24]="is24Hours()"
+      [tapConf]="modalOptions.tapticConf"
+      (valueSelected)="onClockValue($event)"
+      (selectChange)="onSelectChange($event)"
+      [inputTime]="isBegin(pickState) ? timesTemp[0] : timesTemp[1]"
+    ></moots-clock-picker>
   </div>
 </div>
 
-<moots-calendar-week [@openClose]="isDate(pickState) ? 'open' : 'closed'" *ngIf="isDate(pickState)"
-  [color]="_d.color" [weekArray]="_d.weekdays" [weekStart]="_d.weekStart">
+<moots-calendar-week
+  [@openClose]="isDate(pickState) ? 'open' : 'closed'"
+  *ngIf="isDate(pickState)"
+  [color]="modalOptions.color"
+  [weekArray]="modalOptions.weekdays"
+  [weekStart]="modalOptions.weekStart"
+>
 </moots-calendar-week>
 
-<ion-content (ionScroll)="onScroll($event)" [scrollEvents]="true" class="calendar-page"
-  [ngClass]="{ 'multi-selection': _d.pickMode === PickMode.MULTI }" [class.noFlow]="isTime(pickState)"
-  [@openClose]="isDate(pickState) ? 'open' : 'closed'">
+<ion-content
+  (ionScroll)="onScroll($event)"
+  [scrollEvents]="true"
+  class="calendar-page"
+  [ngClass]="{ 'multi-selection': modalOptions.pickMode === PickMode.MULTI }"
+  [class.noFlow]="isTime(pickState)"
+  [@openClose]="isDate(pickState) ? 'open' : 'closed'"
+>
   <div #months>
     <ng-template ngFor let-month [ngForOf]="calendarMonths" [ngForTrackBy]="trackByIndex" let-i="index">
       <div class="month-box" [attr.id]="'month-' + i">
-        <h4 class="text-center month-title">
-          {{ _monthFormat(month.original.date) }}
-        </h4>
-        <moots-calendar-month [month]="month" [pickMode]="_d.pickMode" [isSaveHistory]="_d.isSaveHistory" [id]="_d.id"
-          [color]="_d.color" (change)="onChange($event)" [(ngModel)]="datesTemp"
-          [selectBegin]="isBegin(pickState)">
+        <h4 class="text-center month-title">{{ _monthFormat(month.original.date) }}</h4>
+        <moots-calendar-month
+          [month]="month"
+          [pickMode]="modalOptions.pickMode"
+          [isSaveHistory]="modalOptions.isSaveHistory"
+          [id]="modalOptions.id"
+          [color]="modalOptions.color"
+          (change)="onChange($event)"
+          [(ngModel)]="datesTemp"
+          [selectBegin]="isBegin(pickState)"
+        >
         </moots-calendar-month>
       </div>
     </ng-template>
@@ -76,20 +107,15 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button type="button" slot="icon-only" fill="clear" (click)="onCancel()">
-        <span *ngIf="_d.closeLabel !== '' && !_d.closeIcon">{{
-          _d.closeLabel
-        }}</span>
-        <ion-icon *ngIf="_d.closeIcon" name="close"></ion-icon>
+        <span *ngIf="modalOptions.closeLabel !== '' && !modalOptions.closeIcon">{{ modalOptions.closeLabel }}</span>
+        <ion-icon *ngIf="modalOptions.closeIcon" name="close"></ion-icon>
       </ion-button>
     </ion-buttons>
 
     <ion-buttons slot="end">
-      <ion-button type="button" slot="icon-only" *ngIf="!_d.autoDone" fill="clear" [disabled]="!canDone()"
-        (click)="done()">
-        <span *ngIf="_d.doneLabel !== '' && !_d.doneIcon">{{
-          _d.doneLabel
-        }}</span>
-        <ion-icon *ngIf="_d.doneIcon" name="checkmark"></ion-icon>
+      <ion-button type="button" slot="icon-only" *ngIf="!modalOptions.autoDone" fill="clear" [disabled]="!canDone()" (click)="done()">
+        <span *ngIf="modalOptions.doneLabel !== '' && !modalOptions.doneIcon">{{ modalOptions.doneLabel }}</span>
+        <ion-icon *ngIf="modalOptions.doneIcon" name="checkmark"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>

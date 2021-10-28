@@ -1,8 +1,6 @@
-import { animate, keyframes, state, style, transition, trigger, } from '@angular/animations';
+import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import * as moment from 'moment';
-
-
+import { DateTime } from 'luxon';
 
 import { TapticConfig } from '../calendar.model';
 
@@ -19,23 +17,34 @@ export enum ClockPickState {
 @Component({
   selector: 'moots-clock-picker',
   animations: [
-    trigger(
-      'switch', [
-      state('open', style({
-        transform: 'scale(1)',
-        opacity: 1
-      })),
-      state('closed', style({
-        transform: 'scale(1)',
-        opacity: 1
-      })),
+    trigger('switch', [
+      state(
+        'open',
+        style({
+          transform: 'scale(1)',
+          opacity: 1
+        })
+      ),
+      state(
+        'closed',
+        style({
+          transform: 'scale(1)',
+          opacity: 1
+        })
+      ),
       transition('open <=> closed', [
-        animate('0.5s ease-in-out', keyframes([
-          style({ transform: 'scale(1.1)', opacity: 0.5, offset: 0.5 }),
-        ]))
-      ]),
-    ]
-    )
+        animate(
+          '0.5s ease-in-out',
+          keyframes([
+            style({
+              transform: 'scale(1.1)',
+              opacity: 0.5,
+              offset: 0.5
+            })
+          ])
+        )
+      ])
+    ])
   ],
   styleUrls: ['./clock-picker.component.scss'],
   templateUrl: './clock-picker.component.html'
@@ -46,29 +55,29 @@ export class ClockPickerComponent {
   @Input() pickState = ClockPickState.HOUR;
   @Input() mode24 = true;
 
-  _inputTime: moment.Moment;
-  @Input() set inputTime(time: moment.Moment) {
+  _inputTime: DateTime;
+  @Input() set inputTime(time: DateTime) {
     this._inputTime = time;
-    let hour = time.format(this.mode24 ? 'HH' : 'hh');
+    let hour = time.toFormat(this.mode24 ? 'HH' : 'hh');
     hour = hour.startsWith('0') ? hour.substr(1) : hour;
     this.setClockFromHour(hour);
-    this.setClockFromMinute(time.format('mm'));
+    this.setClockFromMinute(time.toFormat('mm'));
   }
 
   @Input() tapConf: TapticConfig;
 
   @Output()
-  selectChange = new EventEmitter();
+  selectChange = new EventEmitter<ClockPickState>();
   @Output()
-  valueSelected = new EventEmitter();
+  valueSelected = new EventEmitter<DateTime>();
 
   @ViewChild('hourClock') hourClock: any;
   @ViewChild('minuteClock') minuteClock: any;
 
   hourSelected = '3';
   minuteSelected = '00';
-  hourHandStyle: { transform: string; };
-  minuteHandStyle: { transform: string; };
+  hourHandStyle: { transform: string };
+  minuteHandStyle: { transform: string };
   lastClicked: any;
   outerHours = ['9', '10', '11', '12', '1', '2', '3', '4', '5', '6', '7', '8'];
   innerHours = ['21', '22', '23', '00', '13', '14', '15', '16', '17', '18', '19', '20'];
@@ -84,14 +93,16 @@ export class ClockPickerComponent {
   }
 
   getAmPm() {
-    return this._inputTime.format('a');
+    return this._inputTime.toFormat('a');
   }
 
   setAmPm(arg: string) {
-    const f = this._inputTime.format('hh:mm a');
-    const temp = moment(f.replace(this.getAmPm(), arg), 'hh:mm a');
-    this._inputTime.hours(temp.hours());
-    this._inputTime.minutes(temp.minutes());
+    const f = this._inputTime.toFormat('hh:mm a');
+    const temp = DateTime.fromFormat(f.replace(this.getAmPm(), arg), 'hh:mm a');
+    console.log(temp);
+
+    // this._inputTime.hours = temp.hour;
+    // this._inputTime.minutes(temp.minute);
     this.selectChange.emit(this.pickState);
   }
 
@@ -108,11 +119,7 @@ export class ClockPickerComponent {
         x: rectangle.width / 2 + rectangle.left,
         y: rectangle.height / 2 + rectangle.top
       };
-      const angle =
-        (Math.atan2(
-          clockCenter.y - clicked.y,
-          clockCenter.x - clicked.x
-        ) * 180) / Math.PI;
+      const angle = (Math.atan2(clockCenter.y - clicked.y, clockCenter.x - clicked.x) * 180) / Math.PI;
       if (this.pickState === ClockPickState.HOUR) {
         const dist = ClockPickerComponent.calculateDistance(clockCenter.x, clicked.x, clockCenter.y, clicked.y);
         this.setHourFromAngle(angle, this.mode24 && dist < rectangle.height / 3);
@@ -120,9 +127,15 @@ export class ClockPickerComponent {
         this.setMinuteFromAngle(angle);
       }
 
-      const time = this.hourSelected + ' ' + this.minuteSelected + (this.mode24 ? '' : this.getAmPm());
-      const temp = moment(time, 'hh mm a');
-      this._inputTime = this._inputTime.hours(temp.hours()).minutes(temp.minutes());
+      this.setAmPm;
+      const time =
+        (this.getHourNumber() < 10 ? '0' + this.hourSelected : this.hourSelected) +
+        ' ' +
+        this.minuteSelected +
+        (this.mode24 ? '' : ' ' + this.getAmPm());
+      const temp = DateTime.fromFormat(time, 'hh mm a');
+      this._inputTime = this._inputTime.set({ hour: temp.hour, minute: temp.minute });
+      this.valueSelected.emit(this._inputTime);
     }
   }
 
@@ -176,12 +189,12 @@ export class ClockPickerComponent {
     if (index > -1 || index === -6) {
       const angle = Math.abs(index) * 30 - 90;
       this.hourHandStyle = {
-        transform: `rotate(${angle}deg)`,
+        transform: `rotate(${angle}deg)`
       };
     } else {
       const angle = 12 - Math.abs(index) * 30 - 105;
       this.hourHandStyle = {
-        transform: `rotate(${angle}deg)`,
+        transform: `rotate(${angle}deg)`
       };
     }
     this.hourSelected = hour;
@@ -192,11 +205,11 @@ export class ClockPickerComponent {
     const index = this.minutes.indexOf(minute);
     if (index > -1 || index === -6) {
       this.minuteHandStyle = {
-        transform: `rotate(${Math.abs(index) * 30 - 90}deg)`,
+        transform: `rotate(${Math.abs(index) * 30 - 90}deg)`
       };
     } else {
       this.minuteHandStyle = {
-        transform: `rotate(${(12 - Math.abs(index)) * 30 - 105}deg)`,
+        transform: `rotate(${(12 - Math.abs(index)) * 30 - 105}deg)`
       };
     }
     this.minuteSelected = minute;
@@ -210,13 +223,13 @@ export class ClockPickerComponent {
       toSelect = hours[Math.abs(index)];
       const angleC = Math.abs(index) * 30 - 90;
       this.hourHandStyle = {
-        transform: `rotate(${angleC}deg)`,
+        transform: `rotate(${angleC}deg)`
       };
     } else {
       toSelect = hours[12 - Math.abs(index)];
       const angleC = (12 - Math.abs(index)) * 30 - 90;
       this.hourHandStyle = {
-        transform: `rotate(${angleC}deg)`,
+        transform: `rotate(${angleC}deg)`
       };
     }
     if (toSelect !== this.hourSelected) {
@@ -231,12 +244,12 @@ export class ClockPickerComponent {
     if (index > -1 || index === -6) {
       toSelect = this.minutes[Math.abs(index)];
       this.minuteHandStyle = {
-        transform: `rotate(${Math.abs(index) * 30 - 90}deg)`,
+        transform: `rotate(${Math.abs(index) * 30 - 90}deg)`
       };
     } else {
       toSelect = this.minutes[12 - Math.abs(index)];
       this.minuteHandStyle = {
-        transform: `rotate(${(12 - Math.abs(index)) * 30 - 90}deg)`,
+        transform: `rotate(${(12 - Math.abs(index)) * 30 - 90}deg)`
       };
     }
     if (toSelect !== this.minuteSelected) {
@@ -249,5 +262,4 @@ export class ClockPickerComponent {
     const dis = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
     return Math.abs(dis);
   }
-
 }
