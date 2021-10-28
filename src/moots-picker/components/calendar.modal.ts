@@ -483,7 +483,7 @@ export class PickerModal implements OnInit, AfterViewInit {
   }
 
   _getDayTime(date: DateTime): number {
-    return DateTime.fromFormat(date.toFormat('yyyy-MM-DD'), 'yyyy-MM-DD').valueOf();
+    return DateTime.fromFormat(date.toFormat('yyyy-MM-dd'), 'yyyy-MM-dd').valueOf();
   }
 
   _monthFormat(date: DateTime): string {

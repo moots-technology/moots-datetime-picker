@@ -132,7 +132,7 @@ export class ClockPickerComponent {
         ' ' +
         this.minuteSelected +
         (this.mode24 ? '' : ' ' + this.getAmPm());
-      const temp = DateTime.fromFormat(time, 'hh mm a');
+      const temp = DateTime.fromFormat(time, this.mode24 ? 'HH mm' : 'hh mm a');
       this._inputTime = this._inputTime.set({ hour: temp.hour, minute: temp.minute });
       this.valueSelected.emit(this._inputTime);
     }

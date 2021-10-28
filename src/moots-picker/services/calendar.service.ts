@@ -55,10 +55,10 @@ export class CalendarService {
       daysConfig: calendarOptions.daysConfig || _daysConfig,
       disableWeeks: calendarOptions.disableWeeks || _disableWeeks,
       showAdjacentMonthDay: calendarOptions.showAdjacentMonthDay && true,
-      locale: calendarOptions.closeLabel || 'en',
-      startLabel: calendarOptions.closeLabel || 'Start',
-      endLabel: calendarOptions.closeLabel || 'End',
-      fulldayLabel: calendarOptions.closeLabel || 'All Day event',
+      locale: calendarOptions.locale || 'en',
+      startLabel: calendarOptions.startLabel || 'Start',
+      endLabel: calendarOptions.endLabel || 'End',
+      fulldayLabel: calendarOptions.fulldayLabel || 'All Day event',
       fullday: calendarOptions.fullday || false,
       defaultScrollTo: calendarOptions.defaultScrollTo ? payloadToDateTime(calendarOptions.defaultDate) : from,
       defaultDate: calendarOptions.defaultDate ? payloadToDateTime(calendarOptions.defaultDate) : undefined,
@@ -109,7 +109,7 @@ export class CalendarService {
 
   createCalendarDay(time: number, opt: PickerModalOptionsSafe, month?: number): CalendarDay {
     const date = DateTime.fromMillis(time);
-    const isToday = DateTime.utc().hasSame(date, 'day');
+    const isToday = DateTime.now().hasSame(date, 'day');
     const dayConfig = this.findDayConfig(date, opt);
     const _rangeBeg = opt.from.valueOf();
     const _rangeEnd = opt.to.valueOf();
