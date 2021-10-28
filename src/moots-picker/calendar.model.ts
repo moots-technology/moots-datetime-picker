@@ -177,8 +177,8 @@ export class CalendarResult {
 }
 
 export class CalendarComponentMonthChange {
-  oldMonth: CalendarResult;
-  newMonth: CalendarResult;
+  oldMonth: number;
+  newMonth: number;
 }
 
 export type Colors = 'primary' | 'secondary' | 'danger' | 'light' | 'dark' | string;

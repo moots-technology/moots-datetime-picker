@@ -151,8 +151,7 @@ export class PickerModal implements OnInit, AfterViewInit {
             const temp = DateTime.fromFormat(f.replace(ampm, 'pm'), 'hh:mm a');
             console.log(temp);
 
-            // this.timesTemp[1].hours(temp.hours());
-            // this.timesTemp[1].minutes(temp.minutes());
+            this.timesTemp[1] = this.timesTemp[1].set({ hour: temp.hour, minute: temp.minute });
           }
         }
       }

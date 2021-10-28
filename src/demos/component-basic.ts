@@ -13,7 +13,7 @@ import { CalendarComponentOptions } from '../moots-picker';
   `
 })
 export class DemoComponentBasicComponent {
-  date: DateTime = DateTime.now();
+  date: DateTime = DateTime.utc();
   options: CalendarComponentOptions = {
     from: this.date.toMillis()
   };

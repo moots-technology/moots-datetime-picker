@@ -109,7 +109,7 @@ export class CalendarService {
 
   createCalendarDay(time: number, opt: PickerModalOptionsSafe, month?: number): CalendarDay {
     const date = DateTime.fromMillis(time);
-    const isToday = DateTime.now().hasSame(date, 'day');
+    const isToday = DateTime.utc().hasSame(date, 'day');
     const dayConfig = this.findDayConfig(date, opt);
     const _rangeBeg = opt.from.valueOf();
     const _rangeEnd = opt.to.valueOf();
@@ -240,8 +240,8 @@ export class CalendarService {
           to: this.multiFormat(
             DateTime.fromMillis(original[secondIndex].time)
               .set({
-                hour: times[0].hour,
-                minute: times[0].minute
+                hour: times[1].hour,
+                minute: times[1].minute
               })
               .startOf('minute')
               .valueOf()

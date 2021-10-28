@@ -9,7 +9,7 @@ import { PickMode, PickerModal, PickerModalOptions } from '../moots-picker';
   template: ` <ion-button (click)="openCalendar()"> basic </ion-button> `
 })
 export class DemoModalBasicComponent {
-  date: DateTime = DateTime.now();
+  date: DateTime = DateTime.utc();
   dateRange = {
     from: this.date.toMillis(),
     to: this.date.toMillis()
@@ -20,6 +20,8 @@ export class DemoModalBasicComponent {
   constructor(public modalCtrl: ModalController) {}
 
   async openCalendar() {
+    console.log('input: ', this.date.toString());
+
     const options: PickerModalOptions = {
       pickMode: PickMode.RANGE,
       title: 'RANGE',
@@ -40,7 +42,9 @@ export class DemoModalBasicComponent {
     const { data: date, role } = event;
 
     if (role === 'done') {
-      this.date = date.dateObj;
+      const from = DateTime.fromMillis(date.from).toUTC();
+      const to = DateTime.fromMillis(date.to).toUTC();
+      console.log(from.toString(), to.toString());
     }
   }
 }

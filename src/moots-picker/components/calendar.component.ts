@@ -57,7 +57,7 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
   @Input()
   readonly = false;
   @Output()
-  change: EventEmitter<CalendarComponentPayloadTypes> = new EventEmitter();
+  change: EventEmitter<any> = new EventEmitter();
   @Output()
   monthChange: EventEmitter<CalendarComponentMonthChange> = new EventEmitter();
   @Output()
@@ -131,8 +131,8 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
   nextMonth(): void {
     const nextTime = DateTime.fromMillis(this.monthOpt.original.time).plus({ months: 1 }).valueOf();
     this.monthChange.emit({
-      oldMonth: undefined, //this.calSvc.multiFormat(this.monthOpt.original.time),
-      newMonth: undefined //this.calSvc.multiFormat(nextTime)
+      oldMonth: this.calSvc.multiFormat(this.monthOpt.original.time),
+      newMonth: this.calSvc.multiFormat(nextTime)
     });
     this.monthOpt = this.createMonth(nextTime);
   }
@@ -147,8 +147,8 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
   backMonth(): void {
     const backTime = DateTime.fromMillis(this.monthOpt.original.time).minus({ months: 1 }).valueOf();
     this.monthChange.emit({
-      oldMonth: undefined, //this.calSvc.multiFormat(this.monthOpt.original.time),
-      newMonth: undefined //this.calSvc.multiFormat(backTime)
+      oldMonth: this.calSvc.multiFormat(this.monthOpt.original.time),
+      newMonth: this.calSvc.multiFormat(backTime)
     });
     this.monthOpt = this.createMonth(backTime);
   }
@@ -164,8 +164,8 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
     this._view = 'days';
     const newMonth = DateTime.fromMillis(this.monthOpt.original.time).set({ month: month }).valueOf();
     this.monthChange.emit({
-      oldMonth: undefined, //this.calSvc.multiFormat(this.monthOpt.original.time),
-      newMonth: undefined //this.calSvc.multiFormat(newMonth)
+      oldMonth: this.calSvc.multiFormat(this.monthOpt.original.time),
+      newMonth: this.calSvc.multiFormat(newMonth)
     });
     this.monthOpt = this.createMonth(newMonth);
   }
@@ -175,7 +175,7 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
       case PickMode.SINGLE:
         const date = DateTime.fromMillis($event[0].time);
         this._onChanged(date);
-        // this.change.emit(date);
+        this.change.emit(date.toMillis());
         break;
 
       case PickMode.RANGE:
@@ -185,7 +185,7 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
             to: DateTime.fromMillis($event[1].time)
           };
           this._onChanged(rangeDate);
-          //   this.change.emit(rangeDate);
+          this.change.emit(rangeDate);
         }
         break;
 
@@ -199,7 +199,7 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
         }
 
         this._onChanged(dates);
-        // this.change.emit(dates);
+        this.change.emit(dates);
         break;
 
       default:
