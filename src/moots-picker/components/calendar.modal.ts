@@ -382,7 +382,7 @@ export class PickerModal implements OnInit, AfterViewInit {
     const nextTime = DateTime.fromMillis(final.original.time).plus({ months: 1 }).valueOf();
     const rangeEnd = this.modalOptions.to ? this.modalOptions.to.minus({ months: 1 }) : 0;
 
-    if (len <= 0 || (rangeEnd !== 0 && DateTime.fromMillis(final.original.time) > rangeEnd)) {
+    if (len <= 0 || (rangeEnd !== 0 && DateTime.fromMillis(final.original.time) < rangeEnd)) {
       event.target.disabled = true;
       return;
     }
