@@ -487,7 +487,7 @@ export class PickerModal implements OnInit, AfterViewInit {
   }
 
   _monthFormat(date: DateTime): string {
-    return date.toFormat(this.modalOptions.monthFormat);
+    return date.toLocaleString({ year: 'numeric', month: 'short' });
   }
 
   trackByIndex(index: number, momentDate: CalendarMonth): number {

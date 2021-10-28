@@ -50,7 +50,7 @@ export class CalendarMonth {
 }
 
 export interface DayConfig {
-  date: Date;
+  date: DateTime;
   marked?: boolean;
   title?: string;
   subTitle?: string;

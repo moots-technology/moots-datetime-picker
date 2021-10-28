@@ -38,11 +38,11 @@ export class CalendarService {
       id: calendarOptions.id || '',
       cssClass: calendarOptions.cssClass || '',
       closeLabel: calendarOptions.closeLabel || 'CANCEL',
-      doneLabel: calendarOptions.closeLabel || 'DONE',
-      monthFormat: calendarOptions.closeLabel || 'MMM yyyy',
-      title: calendarOptions.closeLabel || 'CALENDAR',
-      defaultTitle: calendarOptions.closeLabel || '',
-      defaultSubtitle: calendarOptions.closeLabel || '',
+      doneLabel: calendarOptions.doneLabel || 'DONE',
+      monthFormat: calendarOptions.monthFormat || 'MMM yyyy',
+      title: calendarOptions.title || 'CALENDAR',
+      defaultTitle: calendarOptions.defaultTitle || '',
+      defaultSubtitle: calendarOptions.defaultSubtitle || '',
       autoDone: calendarOptions.autoDone || false,
       canBackwardsSelected: calendarOptions.canBackwardsSelected || false,
       closeIcon: calendarOptions.closeIcon || false,
@@ -100,11 +100,11 @@ export class CalendarService {
     };
   }
 
-  findDayConfig(day: any, opt: PickerModalOptionsSafe): any {
+  findDayConfig(day: DateTime, opt: PickerModalOptionsSafe): any {
     if (opt.daysConfig.length <= 0) {
       return undefined;
     }
-    return opt.daysConfig.find((n) => day.isSame(n.date, 'day'));
+    return opt.daysConfig.find((n) => day.hasSame(n.date, 'day'));
   }
 
   createCalendarDay(time: number, opt: PickerModalOptionsSafe, month?: number): CalendarDay {
