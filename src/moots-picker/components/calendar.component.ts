@@ -229,7 +229,7 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
   }
 
   _monthFormat(date: number): string {
-    return DateTime.fromMillis(date).toFormat(this.modalOptions.monthFormat);
+    return DateTime.fromMillis(date).toFormat(this.modalOptions.monthFormat.replace('yyyy', ''));
   }
 
   private initOpt(): void {
