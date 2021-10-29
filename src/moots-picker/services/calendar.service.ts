@@ -66,7 +66,7 @@ export class CalendarService {
       defaultDateRange: calendarOptions.defaultDateRange
         ? { from: payloadToDateTime(calendarOptions.defaultDateRange.from), to: payloadToDateTime(calendarOptions.defaultDateRange.to) }
         : undefined,
-      tapticConf: {
+      tapticConf: calendarOptions.tapticConf || {
         onClockHover: () => {
           /**/
         },
@@ -110,6 +110,7 @@ export class CalendarService {
   createCalendarDay(time: number, opt: PickerModalOptionsSafe, month?: number): CalendarDay {
     const date = DateTime.fromMillis(time);
     const isToday = DateTime.now().hasSame(date, 'day');
+    const isBeforeToday = DateTime.now().startOf('day') > date;
     const dayConfig = this.findDayConfig(date, opt);
     const _rangeBeg = opt.from.valueOf();
     const _rangeEnd = opt.to.valueOf();
@@ -132,6 +133,9 @@ export class CalendarService {
 
     let _disable = false;
     _disable = dayConfig && isBoolean(dayConfig.disable) ? dayConfig.disable : disableWee || isBetween;
+    if (isBeforeToday && !opt.canBackwardsSelected) {
+      _disable = true;
+    }
 
     let title = new Date(time).getDate().toString();
     if (dayConfig && dayConfig.title) {
