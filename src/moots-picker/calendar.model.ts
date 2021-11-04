@@ -186,7 +186,7 @@ export type Colors = 'primary' | 'secondary' | 'danger' | 'light' | 'dark' | str
 export type CalendarComponentPayloadTypes = Date | number;
 
 export function payloadToDateTime(payload: CalendarComponentPayloadTypes): DateTime {
-  return payload instanceof Date ? DateTime.fromJSDate(payload) : DateTime.fromMillis(payload);
+  return payload instanceof Date ? DateTime.fromJSDate(payload, { zone: 'Etc/UTC' }) : DateTime.fromMillis(payload, { zone: 'Etc/UTC' });
 }
 
 export function payloadsToDateTime(payloads: CalendarComponentPayloadTypes[]): DateTime[] {

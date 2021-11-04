@@ -138,7 +138,11 @@ export class PickerModal implements OnInit, AfterViewInit {
   }
 
   preventInvalidRange() {
-    if (!this.datesTemp[1] || DateTime.fromMillis(this.datesTemp[0].time).day === DateTime.fromMillis(this.datesTemp[1].time).day) {
+    if (
+      !this.datesTemp[1] ||
+      DateTime.fromMillis(this.datesTemp[0].time, { zone: 'Etc/UTC' }).day ===
+        DateTime.fromMillis(this.datesTemp[1].time, { zone: 'Etc/UTC' }).day
+    ) {
       if (this.timesTemp[0].valueOf() > this.timesTemp[1].valueOf()) {
         if (this.isBegin(this.pickState)) {
           this.timesTemp[1] = this.timesTemp[0].plus({ minutes: 15 });
@@ -148,7 +152,7 @@ export class PickerModal implements OnInit, AfterViewInit {
             this.timesTemp[0] = this.timesTemp[1].minus({ minutes: 15 });
           } else {
             const f = this.timesTemp[1].toFormat('hh:mm a');
-            const temp = DateTime.fromFormat(f.replace(ampm, 'pm'), 'hh:mm a');
+            const temp = DateTime.fromFormat(f.replace(ampm, 'pm'), 'hh:mm a', { zone: 'Etc/UTC' });
             console.log(temp);
 
             this.timesTemp[1] = this.timesTemp[1].set({ hour: temp.hour, minute: temp.minute });
@@ -162,7 +166,7 @@ export class PickerModal implements OnInit, AfterViewInit {
     if (!this.datesTemp[index]) {
       index--;
     }
-    return DateTime.fromMillis(this.datesTemp[index].time).toLocaleString(DateTime.DATE_FULL);
+    return DateTime.fromMillis(this.datesTemp[index].time, { zone: 'Etc/UTC' }).toLocaleString(DateTime.DATE_FULL);
   }
 
   getTimeHours(index: number) {
@@ -188,7 +192,7 @@ export class PickerModal implements OnInit, AfterViewInit {
 
   onClickStartDate() {
     this.setPickState(GlobalPickState.BEGIN_DATE);
-    this.scrollToDate(DateTime.fromMillis(this.datesTemp[0].time));
+    this.scrollToDate(DateTime.fromMillis(this.datesTemp[0].time, { zone: 'Etc/UTC' }));
   }
 
   onClickStartHour($event: Event) {
@@ -207,7 +211,7 @@ export class PickerModal implements OnInit, AfterViewInit {
 
   onClickEndDate() {
     this.setPickState(GlobalPickState.END_DATE);
-    this.scrollToDate(DateTime.fromMillis(this.datesTemp[0].time));
+    this.scrollToDate(DateTime.fromMillis(this.datesTemp[0].time, { zone: 'Etc/UTC' }));
   }
 
   onClickEndHour($event: Event) {
@@ -369,6 +373,8 @@ export class PickerModal implements OnInit, AfterViewInit {
   done(): void {
     const { pickMode } = this.modalOptions;
 
+    this.preventInvalidRange();
+
     this.modalCtrl.dismiss(this.calSvc.wrapResult(this.datesTemp, this.timesTemp, pickMode), 'done');
   }
 
@@ -379,10 +385,10 @@ export class PickerModal implements OnInit, AfterViewInit {
   nextMonth(event: any): void {
     const len = this.calendarMonths.length;
     const final = this.calendarMonths[len - 1];
-    const nextTime = DateTime.fromMillis(final.original.time).plus({ months: 1 }).valueOf();
+    const nextTime = DateTime.fromMillis(final.original.time, { zone: 'Etc/UTC' }).plus({ months: 1 }).valueOf();
     const rangeEnd = this.modalOptions.to ? this.modalOptions.to.minus({ months: 1 }) : 0;
 
-    if (len <= 0 || (rangeEnd !== 0 && DateTime.fromMillis(final.original.time) < rangeEnd)) {
+    if (len <= 0 || (rangeEnd !== 0 && DateTime.fromMillis(final.original.time, { zone: 'Etc/UTC' }) < rangeEnd)) {
       event.target.disabled = true;
       return;
     }
@@ -400,7 +406,7 @@ export class PickerModal implements OnInit, AfterViewInit {
       return;
     }
 
-    const firstTime = (this.actualFirstTime = DateTime.fromMillis(first.original.time)
+    const firstTime = (this.actualFirstTime = DateTime.fromMillis(first.original.time, { zone: 'Etc/UTC' })
       .minus({ months: NUM_OF_MONTHS_TO_CREATE })
       .valueOf());
 
@@ -468,7 +474,7 @@ export class PickerModal implements OnInit, AfterViewInit {
   }
 
   findInitMonthNumber(date: DateTime): number {
-    let startDate = this.actualFirstTime ? DateTime.fromMillis(this.actualFirstTime) : this.modalOptions.from;
+    let startDate = this.actualFirstTime ? DateTime.fromMillis(this.actualFirstTime, { zone: 'Etc/UTC' }) : this.modalOptions.from;
     const defaultScrollTo = date;
     const isAfter: boolean = defaultScrollTo > startDate;
     if (!isAfter) {
@@ -476,14 +482,14 @@ export class PickerModal implements OnInit, AfterViewInit {
     }
 
     if (this.showYearPicker) {
-      startDate = DateTime.fromJSDate(new Date(this.year, 0, 1));
+      startDate = DateTime.fromJSDate(new Date(this.year, 0, 1), { zone: 'Etc/UTC' });
     }
 
     return defaultScrollTo.diff(startDate, 'months').milliseconds;
   }
 
   _getDayTime(date: DateTime): number {
-    return DateTime.fromFormat(date.toFormat('yyyy-MM-dd'), 'yyyy-MM-dd').valueOf();
+    return DateTime.fromFormat(date.toFormat('yyyy-MM-dd'), 'yyyy-MM-dd', { zone: 'Etc/UTC' }).valueOf();
   }
 
   _monthFormat(date: DateTime): string {

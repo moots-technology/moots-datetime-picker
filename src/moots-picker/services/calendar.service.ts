@@ -88,7 +88,7 @@ export class CalendarService {
     const year = date.getFullYear();
     const month = date.getMonth();
     const firstWeek = new Date(year, month, 1).getDay();
-    const datetime = DateTime.fromMillis(time);
+    const datetime = DateTime.fromMillis(time, { zone: 'Etc/UTC' });
     const howManyDays = datetime.endOf('month').day;
     return {
       year,
@@ -108,7 +108,7 @@ export class CalendarService {
   }
 
   createCalendarDay(time: number, opt: PickerModalOptionsSafe, month?: number): CalendarDay {
-    const date = DateTime.fromMillis(time);
+    const date = DateTime.fromMillis(time, { zone: 'Etc/UTC' });
     const isToday = DateTime.now().hasSame(date, 'day');
     const isBeforeToday = DateTime.now().startOf('day') > date;
     const dayConfig = this.findDayConfig(date, opt);
@@ -186,17 +186,17 @@ export class CalendarService {
 
     if (opt.showAdjacentMonthDay) {
       const _booleanMap = days.map((e) => !!e);
-      const thisMonth = DateTime.fromMillis(original.time).month;
+      const thisMonth = DateTime.fromMillis(original.time, { zone: 'Etc/UTC' }).month;
       let startOffsetIndex = _booleanMap.indexOf(true) - 1;
       let endOffsetIndex = _booleanMap.lastIndexOf(true) + 1;
       for (startOffsetIndex; startOffsetIndex >= 0; startOffsetIndex--) {
-        const dayBefore = DateTime.fromMillis(days[startOffsetIndex + 1].time).minus({ days: 1 });
+        const dayBefore = DateTime.fromMillis(days[startOffsetIndex + 1].time, { zone: 'Etc/UTC' }).minus({ days: 1 });
         days[startOffsetIndex] = this.createCalendarDay(dayBefore.valueOf(), opt, thisMonth);
       }
 
       if (!(_booleanMap.length % 7 === 0 && _booleanMap[_booleanMap.length - 1])) {
         for (endOffsetIndex; endOffsetIndex < days.length + (endOffsetIndex % 7); endOffsetIndex++) {
-          const dayAfter = DateTime.fromMillis(days[endOffsetIndex - 1].time).plus({ days: 1 });
+          const dayAfter = DateTime.fromMillis(days[endOffsetIndex - 1].time, { zone: 'Etc/UTC' }).plus({ days: 1 });
           days[endOffsetIndex] = this.createCalendarDay(dayAfter.valueOf(), opt, thisMonth);
         }
       }
@@ -215,7 +215,7 @@ export class CalendarService {
     const _startMonth = new Date(_start.getFullYear(), _start.getMonth(), 1).getTime();
 
     for (let i = 0; i < monthsNum; i++) {
-      const time = DateTime.fromMillis(_startMonth).plus({ months: i }).valueOf();
+      const time = DateTime.fromMillis(_startMonth, { zone: 'Etc/UTC' }).plus({ months: i }).valueOf();
       const originalCalendar = this.createOriginalCalendar(time);
       _array.push(this.createCalendarMonth(originalCalendar, opt));
     }
@@ -233,7 +233,7 @@ export class CalendarService {
       case PickMode.RANGE:
         result = {
           from: this.multiFormat(
-            DateTime.fromMillis(original[0].time)
+            DateTime.fromMillis(original[0].time, { zone: 'Etc/UTC' })
               .set({
                 hour: times[0].hour,
                 minute: times[0].minute
@@ -242,7 +242,7 @@ export class CalendarService {
               .valueOf()
           ),
           to: this.multiFormat(
-            DateTime.fromMillis(original[secondIndex].time)
+            DateTime.fromMillis(original[secondIndex].time, { zone: 'Etc/UTC' })
               .set({
                 hour: times[1].hour,
                 minute: times[1].minute
