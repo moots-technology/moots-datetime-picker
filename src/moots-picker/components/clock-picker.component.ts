@@ -70,6 +70,8 @@ export class ClockPickerComponent {
   selectChange = new EventEmitter<ClockPickState>();
   @Output()
   valueSelected = new EventEmitter<DateTime>();
+  @Output()
+  displayedValue = new EventEmitter<DateTime>();
 
   @ViewChild('hourClock') hourClock: any;
   @ViewChild('minuteClock') minuteClock: any;
@@ -93,16 +95,18 @@ export class ClockPickerComponent {
   }
 
   getAmPm() {
-    return this._inputTime.toFormat('a');
+    const s = this._inputTime.toFormat('t');
+    return s.substring(s.length - 2).toLowerCase();
   }
 
   setAmPm(arg: string) {
-    const f = this._inputTime.toFormat('hh:mm a');
-    const temp = DateTime.fromFormat(f.replace(this.getAmPm(), arg), 'hh:mm a', { zone: 'Etc/UTC' });
-    console.log(temp);
+    const f = this._inputTime.toFormat('t');
+    const time = f.replace(this.getAmPm().toUpperCase(), arg.toUpperCase());
+    const temp = DateTime.fromFormat(time, 't', { zone: 'Etc/UTC' });
+    console.log(temp.toFormat('t'));
 
     this._inputTime = this._inputTime.set({ hour: temp.hour, minute: temp.minute });
-    this.selectChange.emit(this.pickState);
+    this.valueSelected.emit(this._inputTime);
   }
 
   getHourNumber(): number {
@@ -134,7 +138,7 @@ export class ClockPickerComponent {
         (this.mode24 ? '' : ' ' + this.getAmPm());
       const temp = DateTime.fromFormat(time, this.mode24 ? 'HH mm' : 'hh mm a', { zone: 'Etc/UTC' });
       this._inputTime = this._inputTime.set({ hour: temp.hour, minute: temp.minute });
-      this.valueSelected.emit(this._inputTime);
+      this.displayedValue.emit(this._inputTime);
     }
   }
 

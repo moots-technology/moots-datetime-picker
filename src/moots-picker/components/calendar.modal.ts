@@ -109,6 +109,17 @@ export class PickerModal implements OnInit, AfterViewInit {
 
   onSelectChange(cstate: ClockPickState) {
     this.clockPickState = cstate;
+    switch (this.pickState) {
+      case GlobalPickState.BEGIN_HOUR:
+        this.setPickState(GlobalPickState.BEGIN_MINUTE);
+        break;
+      case GlobalPickState.BEGIN_MINUTE:
+        this.setPickState(GlobalPickState.END_DATE);
+        break;
+      case GlobalPickState.END_HOUR:
+        this.setPickState(GlobalPickState.END_MINUTE);
+        break;
+    }
   }
 
   onClockValue(time: DateTime) {
@@ -147,12 +158,12 @@ export class PickerModal implements OnInit, AfterViewInit {
         if (this.isBegin(this.pickState)) {
           this.timesTemp[1] = this.timesTemp[0].plus({ minutes: 15 });
         } else {
-          const ampm = this.timesTemp[1].toFormat('a');
+          const ampm = this.getAmPm(1);
           if (this.is24Hours() || ampm === 'pm') {
             this.timesTemp[0] = this.timesTemp[1].minus({ minutes: 15 });
           } else {
-            const f = this.timesTemp[1].toFormat('hh:mm a');
-            const temp = DateTime.fromFormat(f.replace(ampm, 'pm'), 'hh:mm a', { zone: 'Etc/UTC' });
+            const f = this.timesTemp[1].toFormat('t');
+            const temp = DateTime.fromFormat(f.replace(ampm, 'pm'), 't', { zone: 'Etc/UTC' });
             console.log(temp);
 
             this.timesTemp[1] = this.timesTemp[1].set({ hour: temp.hour, minute: temp.minute });
@@ -160,6 +171,11 @@ export class PickerModal implements OnInit, AfterViewInit {
         }
       }
     }
+  }
+
+  getAmPm2(input: DateTime) {
+    const s = input.toFormat('t');
+    return s.substring(s.length - 2).toLowerCase();
   }
 
   getDateString(index: number) {
@@ -178,7 +194,7 @@ export class PickerModal implements OnInit, AfterViewInit {
   }
 
   getAmPm(index: number) {
-    return this.timesTemp[index].toFormat('a');
+    return this.getAmPm2(this.timesTemp[index]);
   }
 
   setPickState(pstate: GlobalPickState) {
