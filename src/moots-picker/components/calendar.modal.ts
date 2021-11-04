@@ -79,7 +79,7 @@ export class PickerModal implements OnInit, AfterViewInit {
   years: number[];
   _scrollLock = true;
   modalOptions: PickerModalOptionsSafe;
-  actualFirstTime: number;
+  actualFirstTime: DateTime;
 
   pickState = GlobalPickState.BEGIN_DATE;
   clockPickState = ClockPickState.HOUR;
@@ -249,7 +249,7 @@ export class PickerModal implements OnInit, AfterViewInit {
     }
 
     this.calendarMonths = this.calSvc.createMonthsByPeriod(
-      this.modalOptions.from.valueOf(),
+      this.modalOptions.from,
       this.findInitMonthNumber(this.modalOptions.defaultScrollTo) + this.step,
       this.modalOptions
     );
@@ -385,7 +385,7 @@ export class PickerModal implements OnInit, AfterViewInit {
   nextMonth(event: any): void {
     const len = this.calendarMonths.length;
     const final = this.calendarMonths[len - 1];
-    const nextTime = DateTime.fromMillis(final.original.time, { zone: 'Etc/UTC' }).plus({ months: 1 }).valueOf();
+    const nextTime = DateTime.fromMillis(final.original.time, { zone: 'Etc/UTC' }).plus({ months: 1 });
     const rangeEnd = this.modalOptions.to ? this.modalOptions.to.minus({ months: 1 }) : 0;
 
     if (len <= 0 || (rangeEnd !== 0 && DateTime.fromMillis(final.original.time, { zone: 'Etc/UTC' }) < rangeEnd)) {
@@ -406,9 +406,9 @@ export class PickerModal implements OnInit, AfterViewInit {
       return;
     }
 
-    const firstTime = (this.actualFirstTime = DateTime.fromMillis(first.original.time, { zone: 'Etc/UTC' })
-      .minus({ months: NUM_OF_MONTHS_TO_CREATE })
-      .valueOf());
+    const firstTime = (this.actualFirstTime = DateTime.fromMillis(first.original.time, { zone: 'Etc/UTC' }).minus({
+      months: NUM_OF_MONTHS_TO_CREATE
+    }));
 
     this.calendarMonths.unshift(...this.calSvc.createMonthsByPeriod(firstTime, NUM_OF_MONTHS_TO_CREATE, this.modalOptions));
     this.ref.detectChanges();
@@ -474,7 +474,7 @@ export class PickerModal implements OnInit, AfterViewInit {
   }
 
   findInitMonthNumber(date: DateTime): number {
-    let startDate = this.actualFirstTime ? DateTime.fromMillis(this.actualFirstTime, { zone: 'Etc/UTC' }) : this.modalOptions.from;
+    let startDate = this.actualFirstTime ? this.actualFirstTime : this.modalOptions.from;
     const defaultScrollTo = date;
     const isAfter: boolean = defaultScrollTo > startDate;
     if (!isAfter) {

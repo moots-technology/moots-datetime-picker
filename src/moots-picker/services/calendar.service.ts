@@ -83,6 +83,10 @@ export class CalendarService {
     return safeOpts;
   }
 
+  multiFormat(time: number): number {
+    return time;
+  }
+
   createOriginalCalendar(time: number): CalendarOriginal {
     const date = new Date(time);
     const year = date.getFullYear();
@@ -108,7 +112,11 @@ export class CalendarService {
   }
 
   createCalendarDay(time: number, opt: PickerModalOptionsSafe, month?: number): CalendarDay {
-    const date = DateTime.fromMillis(time, { zone: 'Etc/UTC' });
+    const today = DateTime.now();
+    const todayUTC = DateTime.utc();
+    console.log(today, todayUTC);
+
+    const date = DateTime.fromMillis(time);
     const isToday = DateTime.now().hasSame(date, 'day');
     const isBeforeToday = DateTime.now().startOf('day') > date;
     const dayConfig = this.findDayConfig(date, opt);
@@ -208,14 +216,13 @@ export class CalendarService {
     };
   }
 
-  createMonthsByPeriod(startTime: number, monthsNum: number, opt: PickerModalOptionsSafe): CalendarMonth[] {
+  createMonthsByPeriod(startDate: DateTime, monthsNum: number, opt: PickerModalOptionsSafe): CalendarMonth[] {
     const _array: CalendarMonth[] = [];
 
-    const _start = new Date(startTime);
-    const _startMonth = new Date(_start.getFullYear(), _start.getMonth(), 1).getTime();
+    const startOfMonth = startDate.startOf('month');
 
     for (let i = 0; i < monthsNum; i++) {
-      const time = DateTime.fromMillis(_startMonth, { zone: 'Etc/UTC' }).plus({ months: i }).valueOf();
+      const time = startOfMonth.plus({ months: i }).valueOf();
       const originalCalendar = this.createOriginalCalendar(time);
       _array.push(this.createCalendarMonth(originalCalendar, opt));
     }
@@ -259,9 +266,5 @@ export class CalendarService {
         result = original;
     }
     return result;
-  }
-
-  multiFormat(time: number): number {
-    return time;
   }
 }

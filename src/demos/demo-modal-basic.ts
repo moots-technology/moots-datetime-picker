@@ -9,7 +9,7 @@ import { PickMode, PickerModal, PickerModalOptions } from '../moots-picker';
   template: ` <ion-button (click)="openCalendar()"> basic </ion-button> `
 })
 export class DemoModalBasicComponent {
-  date: DateTime = DateTime.utc();
+  date = DateTime.utc();
   dateRange = {
     from: this.date.toMillis(),
     to: this.date.toMillis()

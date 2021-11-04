@@ -72,7 +72,7 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
     this._options = value;
     this.initOpt();
     if (this.monthOpt && this.monthOpt.original) {
-      this.monthOpt = this.createMonth(this.monthOpt.original.time);
+      this.monthOpt = this.createMonth(this.monthOpt.original.date);
     }
   }
 
@@ -84,7 +84,7 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
 
   ngOnInit(): void {
     this.initOpt();
-    this.monthOpt = this.createMonth(new Date().getTime());
+    this.monthOpt = this.createMonth(DateTime.utc());
   }
 
   getViewDate() {
@@ -119,20 +119,20 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
     if (DateTime.fromMillis(this.monthOpt.original.time, { zone: 'Etc/UTC' }).year === 1970) {
       return;
     }
-    const backTime = DateTime.fromMillis(this.monthOpt.original.time, { zone: 'Etc/UTC' }).minus({ years: 1 }).valueOf();
+    const backTime = DateTime.fromMillis(this.monthOpt.original.time, { zone: 'Etc/UTC' }).minus({ years: 1 });
     this.monthOpt = this.createMonth(backTime);
   }
 
   nextYear(): void {
-    const nextTime = DateTime.fromMillis(this.monthOpt.original.time, { zone: 'Etc/UTC' }).plus({ years: 1 }).valueOf();
+    const nextTime = DateTime.fromMillis(this.monthOpt.original.time, { zone: 'Etc/UTC' }).plus({ years: 1 });
     this.monthOpt = this.createMonth(nextTime);
   }
 
   nextMonth(): void {
-    const nextTime = DateTime.fromMillis(this.monthOpt.original.time, { zone: 'Etc/UTC' }).plus({ months: 1 }).valueOf();
+    const nextTime = DateTime.fromMillis(this.monthOpt.original.time, { zone: 'Etc/UTC' }).plus({ months: 1 });
     this.monthChange.emit({
       oldMonth: this.calSvc.multiFormat(this.monthOpt.original.time),
-      newMonth: this.calSvc.multiFormat(nextTime)
+      newMonth: this.calSvc.multiFormat(nextTime.valueOf())
     });
     this.monthOpt = this.createMonth(nextTime);
   }
@@ -145,10 +145,10 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
   }
 
   backMonth(): void {
-    const backTime = DateTime.fromMillis(this.monthOpt.original.time, { zone: 'Etc/UTC' }).minus({ months: 1 }).valueOf();
+    const backTime = DateTime.fromMillis(this.monthOpt.original.time, { zone: 'Etc/UTC' }).minus({ months: 1 });
     this.monthChange.emit({
       oldMonth: this.calSvc.multiFormat(this.monthOpt.original.time),
-      newMonth: this.calSvc.multiFormat(backTime)
+      newMonth: this.calSvc.multiFormat(backTime.valueOf())
     });
     this.monthOpt = this.createMonth(backTime);
   }
@@ -162,10 +162,10 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
 
   monthOnSelect(month: number): void {
     this._view = 'days';
-    const newMonth = DateTime.fromMillis(this.monthOpt.original.time, { zone: 'Etc/UTC' }).set({ month: month }).valueOf();
+    const newMonth = DateTime.fromMillis(this.monthOpt.original.time, { zone: 'Etc/UTC' }).set({ month: month });
     this.monthChange.emit({
       oldMonth: this.calSvc.multiFormat(this.monthOpt.original.time),
-      newMonth: this.calSvc.multiFormat(newMonth)
+      newMonth: this.calSvc.multiFormat(newMonth.valueOf())
     });
     this.monthOpt = this.createMonth(newMonth);
   }
@@ -223,9 +223,9 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
     /**/
   };
 
-  _payloadToTimeNumber(value: CalendarComponentPayloadTypes): number {
+  _payloadToTimeNumber(value: CalendarComponentPayloadTypes): DateTime {
     const date = DateTime.fromMillis(value as number, { zone: 'Etc/UTC' });
-    return date.valueOf();
+    return date;
   }
 
   _monthFormat(date: number): string {
@@ -245,21 +245,21 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
     this.modalOptions = this.calSvc.safeOpt(this._options || {});
   }
 
-  createMonth(date: number): CalendarMonth {
+  createMonth(date: DateTime): CalendarMonth {
     return this.calSvc.createMonthsByPeriod(date, 1, this.modalOptions)[0];
   }
 
   _createCalendarDay(_value: string): CalendarDay {
-    return this.calSvc.createCalendarDay(this._payloadToTimeNumber(12), this.modalOptions);
+    return this.calSvc.createCalendarDay(this._payloadToTimeNumber(12).valueOf(), this.modalOptions);
   }
 
   writeValue(obj: any): void {
     this._writeValue(obj);
     if (obj) {
       if (this._calendarMonthValue[0]) {
-        this.monthOpt = this.createMonth(this._calendarMonthValue[0].time);
+        this.monthOpt = this.createMonth(DateTime.fromMillis(this._calendarMonthValue[0].time));
       } else {
-        this.monthOpt = this.createMonth(new Date().getTime());
+        this.monthOpt = this.createMonth(DateTime.utc());
       }
     }
   }
