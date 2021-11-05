@@ -4,10 +4,12 @@
 
 # Optimised Datetime Picker for Ionic
 
-An easy to use and beautiful ionic date & time picker with calendar and clock component for single dates and date ranges.
+An easy to use and beautiful ionic date & time picker with calendar and clock component for single dates and date ranges. Dark mode supported.
 
-![](https://i.imgur.com/U8lrlqD.png)
-![](https://i.imgur.com/53LWKAo.png)
+![chrome_lQWuHjZYoU](https://user-images.githubusercontent.com/59689061/140523162-9b537321-d76a-442b-bd1a-edd5a6bf411c.png)![chrome_YxnD0GDuyj](https://user-images.githubusercontent.com/59689061/140523171-c4ac6d2a-de5d-4b81-a48a-c1d07a23b6fe.png)
+
+![chrome_5IxbdCg6t0](https://user-images.githubusercontent.com/59689061/140523186-0554ae75-cad9-4c84-8b05-9629cfec4ac9.png)![chrome_cGnmRxHYn8](https://user-images.githubusercontent.com/59689061/140523196-fdb91465-3052-4fd9-8e23-65563e2aa978.png)
+
 
 # Versions
 
