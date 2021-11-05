@@ -173,7 +173,7 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
   onChanged($event: CalendarDay[]): void {
     switch (this.modalOptions.pickMode) {
       case PickMode.SINGLE:
-        const date = DateTime.fromMillis($event[0].time, { zone: 'Etc/UTC' });
+        const date = $event[0].time;
         this._onChanged(date);
         this.change.emit(date.toMillis());
         break;
@@ -181,8 +181,8 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
       case PickMode.RANGE:
         if ($event[0] && $event[1]) {
           const rangeDate = {
-            from: DateTime.fromMillis($event[0].time, { zone: 'Etc/UTC' }),
-            to: DateTime.fromMillis($event[1].time, { zone: 'Etc/UTC' })
+            from: $event[0].time,
+            to: $event[1].time
           };
           this._onChanged(rangeDate);
           this.change.emit(rangeDate);
@@ -194,7 +194,7 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
 
         for (const evnt of $event) {
           if (evnt && evnt.time) {
-            dates.push(DateTime.fromMillis(evnt.time, { zone: 'Etc/UTC' }));
+            dates.push(evnt.time);
           }
         }
 
@@ -250,14 +250,14 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
   }
 
   _createCalendarDay(_value: string): CalendarDay {
-    return this.calSvc.createCalendarDay(this._payloadToTimeNumber(12).valueOf(), this.modalOptions);
+    return this.calSvc.createCalendarDay(this._payloadToTimeNumber(12), this.modalOptions);
   }
 
   writeValue(obj: any): void {
     this._writeValue(obj);
     if (obj) {
       if (this._calendarMonthValue[0]) {
-        this.monthOpt = this.createMonth(DateTime.fromMillis(this._calendarMonthValue[0].time));
+        this.monthOpt = this.createMonth(this._calendarMonthValue[0].time);
       } else {
         this.monthOpt = this.createMonth(DateTime.utc());
       }

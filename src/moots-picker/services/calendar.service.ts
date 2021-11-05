@@ -111,12 +111,12 @@ export class CalendarService {
     return opt.daysConfig.find((n) => day.hasSame(n.date, 'day'));
   }
 
-  createCalendarDay(time: number, opt: PickerModalOptionsSafe, month?: number): CalendarDay {
+  createCalendarDay(time: DateTime, opt: PickerModalOptionsSafe, month?: number): CalendarDay {
     const today = DateTime.now();
     const todayUTC = DateTime.utc();
     console.log(today, todayUTC);
 
-    const date = DateTime.fromMillis(time);
+    const date = time;
     const isToday = DateTime.now().hasSame(date, 'day');
     const isBeforeToday = DateTime.now().startOf('day') > date;
     const dayConfig = this.findDayConfig(date, opt);
@@ -145,7 +145,7 @@ export class CalendarService {
       _disable = true;
     }
 
-    let title = new Date(time).getDate().toString();
+    let title = time.day.toString();
     if (dayConfig && dayConfig.title) {
       title = dayConfig.title;
     } else if (opt.defaultTitle) {
@@ -178,8 +178,7 @@ export class CalendarService {
     const days: CalendarDay[] = new Array(6).fill(undefined);
     const len = original.howManyDays;
     for (let i = original.firstWeek; i < len + original.firstWeek; i++) {
-      const itemTime = new Date(original.year, original.month, i - original.firstWeek + 1).getTime();
-      days[i] = this.createCalendarDay(itemTime, opt);
+      days[i] = this.createCalendarDay(original.date.plus({ days: i }), opt);
     }
 
     const weekStart = opt.weekStart;
@@ -198,14 +197,14 @@ export class CalendarService {
       let startOffsetIndex = _booleanMap.indexOf(true) - 1;
       let endOffsetIndex = _booleanMap.lastIndexOf(true) + 1;
       for (startOffsetIndex; startOffsetIndex >= 0; startOffsetIndex--) {
-        const dayBefore = DateTime.fromMillis(days[startOffsetIndex + 1].time, { zone: 'Etc/UTC' }).minus({ days: 1 });
-        days[startOffsetIndex] = this.createCalendarDay(dayBefore.valueOf(), opt, thisMonth);
+        const dayBefore = days[startOffsetIndex + 1].time.minus({ days: 1 });
+        days[startOffsetIndex] = this.createCalendarDay(dayBefore, opt, thisMonth);
       }
 
       if (!(_booleanMap.length % 7 === 0 && _booleanMap[_booleanMap.length - 1])) {
         for (endOffsetIndex; endOffsetIndex < days.length + (endOffsetIndex % 7); endOffsetIndex++) {
-          const dayAfter = DateTime.fromMillis(days[endOffsetIndex - 1].time, { zone: 'Etc/UTC' }).plus({ days: 1 });
-          days[endOffsetIndex] = this.createCalendarDay(dayAfter.valueOf(), opt, thisMonth);
+          const dayAfter = days[endOffsetIndex - 1].time.plus({ days: 1 });
+          days[endOffsetIndex] = this.createCalendarDay(dayAfter, opt, thisMonth);
         }
       }
     }
@@ -235,12 +234,12 @@ export class CalendarService {
     let result: any;
     switch (pickMode) {
       case PickMode.SINGLE:
-        result = this.multiFormat(original[0].time);
+        result = this.multiFormat(original[0].time.valueOf());
         break;
       case PickMode.RANGE:
         result = {
           from: this.multiFormat(
-            DateTime.fromMillis(original[0].time, { zone: 'Etc/UTC' })
+            DateTime.fromMillis(original[0].time.valueOf(), { zone: 'Etc/UTC' })
               .set({
                 hour: times[0].hour,
                 minute: times[0].minute
@@ -249,7 +248,7 @@ export class CalendarService {
               .valueOf()
           ),
           to: this.multiFormat(
-            DateTime.fromMillis(original[secondIndex].time, { zone: 'Etc/UTC' })
+            DateTime.fromMillis(original[secondIndex].time.valueOf(), { zone: 'Etc/UTC' })
               .set({
                 hour: times[1].hour,
                 minute: times[1].minute
@@ -260,7 +259,7 @@ export class CalendarService {
         };
         break;
       case PickMode.MULTI:
-        result = original.map((e) => this.multiFormat(e.time));
+        result = original.map((e) => this.multiFormat(e.time.valueOf()));
         break;
       default:
         result = original;

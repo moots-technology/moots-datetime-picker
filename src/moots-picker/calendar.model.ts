@@ -26,7 +26,7 @@ export interface CalendarOriginal {
 }
 
 export interface CalendarDay {
-  time: number;
+  time: DateTime;
   isToday: boolean;
   selected: boolean;
   disable: boolean;

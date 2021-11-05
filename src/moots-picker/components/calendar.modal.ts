@@ -149,11 +149,7 @@ export class PickerModal implements OnInit, AfterViewInit {
   }
 
   preventInvalidRange() {
-    if (
-      !this.datesTemp[1] ||
-      DateTime.fromMillis(this.datesTemp[0].time, { zone: 'Etc/UTC' }).day ===
-        DateTime.fromMillis(this.datesTemp[1].time, { zone: 'Etc/UTC' }).day
-    ) {
+    if (!this.datesTemp[1] || this.datesTemp[0].time.day === this.datesTemp[1].time.day) {
       if (this.timesTemp[0].valueOf() > this.timesTemp[1].valueOf()) {
         if (this.isBegin(this.pickState)) {
           this.timesTemp[1] = this.timesTemp[0].plus({ minutes: 15 });
@@ -182,7 +178,7 @@ export class PickerModal implements OnInit, AfterViewInit {
     if (!this.datesTemp[index]) {
       index--;
     }
-    return DateTime.fromMillis(this.datesTemp[index].time, { zone: 'Etc/UTC' }).toLocaleString(DateTime.DATE_FULL);
+    return this.datesTemp[index].time.toLocaleString(DateTime.DATE_FULL);
   }
 
   getTimeHours(index: number) {
@@ -208,7 +204,7 @@ export class PickerModal implements OnInit, AfterViewInit {
 
   onClickStartDate() {
     this.setPickState(GlobalPickState.BEGIN_DATE);
-    this.scrollToDate(DateTime.fromMillis(this.datesTemp[0].time, { zone: 'Etc/UTC' }));
+    this.scrollToDate(this.datesTemp[0].time);
   }
 
   onClickStartHour($event: Event) {
@@ -227,7 +223,7 @@ export class PickerModal implements OnInit, AfterViewInit {
 
   onClickEndDate() {
     this.setPickState(GlobalPickState.END_DATE);
-    this.scrollToDate(DateTime.fromMillis(this.datesTemp[0].time, { zone: 'Etc/UTC' }));
+    this.scrollToDate(this.datesTemp[0].time);
   }
 
   onClickEndHour($event: Event) {
@@ -300,11 +296,11 @@ export class PickerModal implements OnInit, AfterViewInit {
       case PickMode.RANGE:
         if (defaultDateRange) {
           if (defaultDateRange.from) {
-            this.datesTemp[0] = this.calSvc.createCalendarDay(this._getDayTime(defaultDateRange.from), this.modalOptions);
+            this.datesTemp[0] = this.calSvc.createCalendarDay(defaultDateRange.from.startOf('day'), this.modalOptions);
             this.timesTemp[0] = defaultDateRange.from;
           }
           if (defaultDateRange.to) {
-            this.datesTemp[1] = this.calSvc.createCalendarDay(this._getDayTime(defaultDateRange.to), this.modalOptions);
+            this.datesTemp[1] = this.calSvc.createCalendarDay(defaultDateRange.to.startOf('day'), this.modalOptions);
             if (defaultDateRange.from >= defaultDateRange.to) {
               this.datesTemp[1] = undefined;
               this.timesTemp[1] = this.timesTemp[0].plus({
@@ -324,7 +320,7 @@ export class PickerModal implements OnInit, AfterViewInit {
         break;
       case PickMode.MULTI:
         if (defaultDates && defaultDates.length) {
-          this.datesTemp = defaultDates.map((e) => this.calSvc.createCalendarDay(this._getDayTime(e), this.modalOptions));
+          this.datesTemp = defaultDates.map((e) => this.calSvc.createCalendarDay(e.startOf('day'), this.modalOptions));
         }
         break;
       default:
