@@ -261,7 +261,7 @@ export class PickerModal implements OnInit, AfterViewInit {
     }
 
     this.calendarMonths = this.calSvc.createMonthsByPeriod(
-      this.modalOptions.from,
+      this.modalOptions.from.startOf('day'),
       this.findInitMonthNumber(this.modalOptions.defaultScrollTo) + this.step,
       this.modalOptions
     );
@@ -397,10 +397,10 @@ export class PickerModal implements OnInit, AfterViewInit {
   nextMonth(event: any): void {
     const len = this.calendarMonths.length;
     const final = this.calendarMonths[len - 1];
-    const nextTime = DateTime.fromMillis(final.original.time, { zone: 'Etc/UTC' }).plus({ months: 1 });
+    const nextTime = final.original.date.plus({ months: 1 });
     const rangeEnd = this.modalOptions.to ? this.modalOptions.to.minus({ months: 1 }) : 0;
 
-    if (len <= 0 || (rangeEnd !== 0 && DateTime.fromMillis(final.original.time, { zone: 'Etc/UTC' }) < rangeEnd)) {
+    if (len <= 0 || (rangeEnd !== 0 && final.original.date < rangeEnd)) {
       event.target.disabled = true;
       return;
     }
@@ -413,12 +413,12 @@ export class PickerModal implements OnInit, AfterViewInit {
   backwardsMonth(): void {
     const first = this.calendarMonths[0];
 
-    if (first.original.time <= 0) {
+    if (first.original.date.valueOf() <= 0) {
       this.modalOptions.canBackwardsSelected = false;
       return;
     }
 
-    const firstTime = (this.actualFirstTime = DateTime.fromMillis(first.original.time, { zone: 'Etc/UTC' }).minus({
+    const firstTime = (this.actualFirstTime = first.original.date.minus({
       months: NUM_OF_MONTHS_TO_CREATE
     }));
 
@@ -509,7 +509,7 @@ export class PickerModal implements OnInit, AfterViewInit {
   }
 
   trackByIndex(index: number, momentDate: CalendarMonth): number {
-    return momentDate.original ? momentDate.original.time : index;
+    return momentDate.original ? momentDate.original.date.valueOf() : index;
   }
 
   isBegin(pstate: GlobalPickState): boolean {

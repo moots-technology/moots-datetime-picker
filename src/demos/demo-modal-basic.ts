@@ -11,8 +11,8 @@ import { PickMode, PickerModal, PickerModalOptions } from '../moots-picker';
 export class DemoModalBasicComponent {
   date = DateTime.utc();
   dateRange = {
-    from: this.date.toMillis(),
-    to: this.date.toMillis()
+    from: this.date.plus({ hours: 1 }).toMillis(),
+    to: this.date.plus({ hours: 1 }).toMillis()
   };
 
   myCalendar: HTMLIonModalElement;

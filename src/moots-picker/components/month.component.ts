@@ -76,7 +76,7 @@ export class MonthComponent implements ControlValueAccessor, AfterViewInit {
   }
 
   trackByTime(index: number, item: CalendarOriginal): number {
-    return item ? item.time : index;
+    return item?.date ? item.date.valueOf() : index;
   }
 
   isEndSelection(day: CalendarDay): boolean {

@@ -26,7 +26,7 @@ export class MonthPickerComponent {
   color = defaults.COLOR;
   @Output()
   select: EventEmitter<number> = new EventEmitter();
-  _thisMonth = DateTime.now();
+  _thisMonth = DateTime.utc();
   _monthFormat = defaults.MONTH_FORMAT;
 
   @Input()

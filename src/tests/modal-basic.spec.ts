@@ -35,7 +35,7 @@ describe('DemoModalBasicComponent', () => {
   });
 
   it('return input with duration 30 minutes if unchanged and no to-Date', () => {
-    const testDate = DateTime.now().plus({ hours: 1 }).startOf('minute');
+    const testDate = DateTime.utc().plus({ hours: 1 }).startOf('minute');
     component.dateRange = {
       from: testDate.toMillis(),
       to: testDate.toMillis()
@@ -56,10 +56,10 @@ describe('DemoModalBasicComponent', () => {
   });
 
   it('return input if valid to-from supplied', () => {
-    const testDate = DateTime.now().plus({ hours: 1 }).startOf('minute');
+    const testDate = DateTime.utc().plus({ hours: 1 }).startOf('minute');
     component.dateRange = {
       from: testDate.toMillis(),
-      to: DateTime.now().plus({ hours: 2 }).startOf('minute').toMillis()
+      to: DateTime.utc().plus({ hours: 2 }).startOf('minute').toMillis()
     };
 
     const dismissSpy = spyOn(component.modalCtrlMock, 'dismiss');
@@ -75,8 +75,8 @@ describe('DemoModalBasicComponent', () => {
   });
 
   it('prevent invalid input dates from being returned', () => {
-    const testDate = DateTime.now().plus({ hours: 1 }).startOf('minute');
-    const expectedTo = DateTime.now().plus({ hours: 2 }).startOf('minute');
+    const testDate = DateTime.utc().plus({ hours: 1 }).startOf('minute');
+    const expectedTo = DateTime.utc().plus({ hours: 2 }).startOf('minute');
     component.dateRange = {
       from: testDate.toMillis(),
       to: testDate.minus({ hours: 2 }).toMillis()

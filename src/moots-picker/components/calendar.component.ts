@@ -88,7 +88,7 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
   }
 
   getViewDate() {
-    return DateTime.fromMillis(this.monthOpt.original.time, { zone: 'Etc/UTC' });
+    return this.monthOpt.original.date;
   }
 
   setViewDate(value: CalendarComponentPayloadTypes) {
@@ -116,22 +116,22 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
   }
 
   prevYear(): void {
-    if (DateTime.fromMillis(this.monthOpt.original.time, { zone: 'Etc/UTC' }).year === 1970) {
+    if (this.monthOpt.original.year === 1970) {
       return;
     }
-    const backTime = DateTime.fromMillis(this.monthOpt.original.time, { zone: 'Etc/UTC' }).minus({ years: 1 });
+    const backTime = this.monthOpt.original.date.minus({ years: 1 });
     this.monthOpt = this.createMonth(backTime);
   }
 
   nextYear(): void {
-    const nextTime = DateTime.fromMillis(this.monthOpt.original.time, { zone: 'Etc/UTC' }).plus({ years: 1 });
+    const nextTime = this.monthOpt.original.date.plus({ years: 1 });
     this.monthOpt = this.createMonth(nextTime);
   }
 
   nextMonth(): void {
-    const nextTime = DateTime.fromMillis(this.monthOpt.original.time, { zone: 'Etc/UTC' }).plus({ months: 1 });
+    const nextTime = this.monthOpt.original.date.plus({ months: 1 });
     this.monthChange.emit({
-      oldMonth: this.calSvc.multiFormat(this.monthOpt.original.time),
+      oldMonth: this.calSvc.multiFormat(this.monthOpt.original.date.valueOf()),
       newMonth: this.calSvc.multiFormat(nextTime.valueOf())
     });
     this.monthOpt = this.createMonth(nextTime);
@@ -141,13 +141,13 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
     if (!this.modalOptions.to || this._view !== 'days') {
       return true;
     }
-    return this.monthOpt.original.time < this.modalOptions.to.valueOf();
+    return this.monthOpt.original.date < this.modalOptions.to;
   }
 
   backMonth(): void {
-    const backTime = DateTime.fromMillis(this.monthOpt.original.time, { zone: 'Etc/UTC' }).minus({ months: 1 });
+    const backTime = this.monthOpt.original.date.minus({ months: 1 });
     this.monthChange.emit({
-      oldMonth: this.calSvc.multiFormat(this.monthOpt.original.time),
+      oldMonth: this.calSvc.multiFormat(this.monthOpt.original.date.valueOf()),
       newMonth: this.calSvc.multiFormat(backTime.valueOf())
     });
     this.monthOpt = this.createMonth(backTime);
@@ -157,14 +157,14 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
     if (!this.modalOptions.from || this._view !== 'days') {
       return true;
     }
-    return this.monthOpt.original.time > this.modalOptions.from.valueOf();
+    return this.monthOpt.original.date > this.modalOptions.from;
   }
 
   monthOnSelect(month: number): void {
     this._view = 'days';
-    const newMonth = DateTime.fromMillis(this.monthOpt.original.time, { zone: 'Etc/UTC' }).set({ month: month });
+    const newMonth = this.monthOpt.original.date.set({ month: month });
     this.monthChange.emit({
-      oldMonth: this.calSvc.multiFormat(this.monthOpt.original.time),
+      oldMonth: this.calSvc.multiFormat(this.monthOpt.original.date.valueOf()),
       newMonth: this.calSvc.multiFormat(newMonth.valueOf())
     });
     this.monthOpt = this.createMonth(newMonth);
@@ -228,8 +228,8 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
     return date;
   }
 
-  _monthFormat(date: number): string {
-    return DateTime.fromMillis(date, { zone: 'Etc/UTC' }).toFormat(this.modalOptions.monthFormat.replace('yyyy', ''));
+  _monthFormat(date: DateTime): string {
+    return date?.toFormat(this.modalOptions.monthFormat.replace('yyyy', ''));
   }
 
   private initOpt(): void {

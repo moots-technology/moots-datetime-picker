@@ -88,19 +88,17 @@ export class CalendarService {
   }
 
   createOriginalCalendar(time: number): CalendarOriginal {
-    const date = new Date(time);
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const firstWeek = new Date(year, month, 1).getDay();
-    const datetime = DateTime.fromMillis(time, { zone: 'Etc/UTC' });
-    const howManyDays = datetime.endOf('month').day;
+    const date = DateTime.fromMillis(time, { zone: 'Etc/UTC' });
+    const year = date.year;
+    const month = date.month;
+    const firstWeek = DateTime.utc(year, month, 1).day;
+    const howManyDays = date.endOf('month').day;
     return {
+      date,
       year,
       month,
       firstWeek,
-      howManyDays,
-      time: new Date(year, month, 1).getTime(),
-      date: datetime
+      howManyDays
     };
   }
 
@@ -112,13 +110,11 @@ export class CalendarService {
   }
 
   createCalendarDay(time: DateTime, opt: PickerModalOptionsSafe, month?: number): CalendarDay {
-    const today = DateTime.now();
-    const todayUTC = DateTime.utc();
-    console.log(today, todayUTC);
+    console.log(time);
 
     const date = time;
-    const isToday = DateTime.now().hasSame(date, 'day');
-    const isBeforeToday = DateTime.now().startOf('day') > date;
+    const isToday = DateTime.utc().hasSame(date, 'day');
+    const isBeforeToday = DateTime.utc().startOf('day') > date;
     const dayConfig = this.findDayConfig(date, opt);
     const _rangeBeg = opt.from.valueOf();
     const _rangeEnd = opt.to.valueOf();
@@ -193,7 +189,7 @@ export class CalendarService {
 
     if (opt.showAdjacentMonthDay) {
       const _booleanMap = days.map((e) => !!e);
-      const thisMonth = DateTime.fromMillis(original.time, { zone: 'Etc/UTC' }).month;
+      const thisMonth = original.date.month;
       let startOffsetIndex = _booleanMap.indexOf(true) - 1;
       let endOffsetIndex = _booleanMap.lastIndexOf(true) + 1;
       for (startOffsetIndex; startOffsetIndex >= 0; startOffsetIndex--) {

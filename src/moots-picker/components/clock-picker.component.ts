@@ -103,7 +103,6 @@ export class ClockPickerComponent {
     const f = this._inputTime.toFormat('t');
     const time = f.replace(this.getAmPm().toUpperCase(), arg.toUpperCase());
     const temp = DateTime.fromFormat(time, 't', { zone: 'Etc/UTC' });
-    console.log(temp.toFormat('t'));
 
     this._inputTime = this._inputTime.set({ hour: temp.hour, minute: temp.minute });
     this.valueSelected.emit(this._inputTime);

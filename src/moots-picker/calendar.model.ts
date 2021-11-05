@@ -17,7 +17,6 @@ export enum PickMode {
 }
 
 export interface CalendarOriginal {
-  time: number;
   date: DateTime;
   year: number;
   month: number;
