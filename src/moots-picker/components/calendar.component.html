@@ -1,13 +1,13 @@
 <div class="title">
   <ng-template [ngIf]="_showMonthPicker" [ngIfElse]="title">
     <ion-button type="button" fill="clear" class="switch-btn" (click)="switchView()">
-      {{ _monthFormat(monthOpt.original.time) }}
+      {{ _monthFormat(monthOpt.original.date) }}
       <ion-icon class="arrow-dropdown" [name]="_view === 'days' ? 'md-arrow-dropdown' : 'md-arrow-dropup'"></ion-icon>
     </ion-button>
   </ng-template>
   <ng-template #title>
     <div class="switch-btn">
-      {{ _monthFormat(monthOpt.original.time) }}
+      {{ _monthFormat(monthOpt.original.date) }}
     </div>
   </ng-template>
   <ng-template [ngIf]="_showToggleButtons">
