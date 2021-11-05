@@ -186,7 +186,7 @@ $disabled-color: var(--ion-color-medium-tint);
   .endSelection button.days-btn {
     border-radius: 50%;
     p {
-      color: var(--ion-color-light-tint);
+      color: var(--ion-color-primary-contrast);
     }
   }
 
@@ -230,7 +230,7 @@ $disabled-color: var(--ion-color-medium-tint);
   }
 
   .days .on-selected p {
-    color: var(--ion-color-light-tint);
+    color: var(--ion-color-primary-contrast);
   }
   .startSelection,
   .endSelection,
