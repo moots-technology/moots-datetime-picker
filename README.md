@@ -15,8 +15,8 @@ An easy to use and beautiful ionic date & time picker with calendar and clock co
 
 | Datetime Picker-Version | Angular-Version |
 |---|---|
-| <=0.2.9 | Angular 8 |
-| >=0.3.0 | Angular 12|
+| <=0.2.9 | Angular 8  |
+| >=0.3.0 | Angular 12 |
 
 
 
@@ -30,9 +30,9 @@ Notes:
 
 # Install
 
-Dependencies (angular flex-layout):
+Dependencies:
 
-`npm i moment @angular/cdk @angular/flex-layout @angular/animations`
+`npm i luxon  @angular/cdk @angular/flex-layout @angular/animations`
 
 The picker:
 
