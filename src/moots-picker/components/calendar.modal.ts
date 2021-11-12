@@ -160,7 +160,6 @@ export class PickerModal implements OnInit, AfterViewInit {
           } else {
             const f = this.timesTemp[1].toFormat('t');
             const temp = DateTime.fromFormat(f.replace(ampm, 'pm'), 't', { zone: 'Etc/UTC' });
-            console.log(temp);
 
             this.timesTemp[1] = this.timesTemp[1].set({ hour: temp.hour, minute: temp.minute });
           }

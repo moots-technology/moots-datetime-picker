@@ -110,8 +110,6 @@ export class CalendarService {
   }
 
   createCalendarDay(time: DateTime, opt: PickerModalOptionsSafe, month?: number): CalendarDay {
-    console.log(time);
-
     const date = time;
     const isToday = DateTime.utc().hasSame(date, 'day');
     const isBeforeToday = DateTime.utc().startOf('day') > date;

@@ -20,8 +20,6 @@ export class DemoModalBasicComponent {
   constructor(public modalCtrl: ModalController) {}
 
   async openCalendar() {
-    console.log('input: ', this.date.toString());
-
     const options: PickerModalOptions = {
       pickMode: PickMode.RANGE,
       title: 'RANGE',
@@ -44,7 +42,6 @@ export class DemoModalBasicComponent {
     if (role === 'done') {
       const from = DateTime.fromMillis(date.from).toUTC();
       const to = DateTime.fromMillis(date.to).toUTC();
-      console.log(from.toString(), to.toString());
     }
   }
 }
