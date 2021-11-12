@@ -91,7 +91,7 @@ export class CalendarService {
     const date = DateTime.fromMillis(time, { zone: 'Etc/UTC' });
     const year = date.year;
     const month = date.month;
-    const firstWeek = DateTime.utc(year, month, 1).day;
+    const firstWeek = DateTime.utc(year, month, 1).weekday;
     const howManyDays = date.endOf('month').day;
     return {
       date,
@@ -174,7 +174,7 @@ export class CalendarService {
     const days: CalendarDay[] = new Array(6).fill(undefined);
     const len = original.howManyDays;
     for (let i = original.firstWeek; i < len + original.firstWeek; i++) {
-      days[i] = this.createCalendarDay(original.date.plus({ days: i }), opt);
+      days[i] = this.createCalendarDay(original.date.plus({ days: i - original.firstWeek }), opt);
     }
 
     const weekStart = opt.weekStart;
