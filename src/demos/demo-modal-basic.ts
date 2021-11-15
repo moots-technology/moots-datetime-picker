@@ -26,7 +26,7 @@ export class DemoModalBasicComponent {
       defaultDateRange: this.dateRange,
       weekStart: 1,
       step: 4,
-      locale: window.navigator.language
+      locale: 'de'
     };
 
     this.myCalendar = await this.modalCtrl.create({
@@ -42,6 +42,8 @@ export class DemoModalBasicComponent {
     if (role === 'done') {
       const from = DateTime.fromMillis(date.from).toUTC();
       const to = DateTime.fromMillis(date.to).toUTC();
+
+      console.log(from.toString(), to.toString());
     }
   }
 }

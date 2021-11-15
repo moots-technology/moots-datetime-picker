@@ -130,11 +130,7 @@ export class ClockPickerComponent {
       }
 
       this.setAmPm;
-      const time =
-        (this.getHourNumber() < 10 ? '0' + this.hourSelected : this.hourSelected) +
-        ' ' +
-        this.minuteSelected +
-        (this.mode24 ? '' : ' ' + this.getAmPm());
+      const time = this.hourSelected.padStart(2, '0') + ' ' + this.minuteSelected + (this.mode24 ? '' : ' ' + this.getAmPm());
       const temp = DateTime.fromFormat(time, this.mode24 ? 'HH mm' : 'hh mm a', { zone: 'Etc/UTC' });
       this._inputTime = this._inputTime.set({ hour: temp.hour, minute: temp.minute });
       this.displayedValue.emit(this._inputTime);
