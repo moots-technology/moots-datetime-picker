@@ -87,6 +87,7 @@ export interface PickerModalOptions extends CalendarOptions {
   fulldayLabel?: string;
   fullday?: boolean;
   tapticConf?: TapticConfig;
+  uses24Hours?: boolean;
 }
 
 export interface PickerModalOptionsSafe extends CalendarOptionsSafe {
@@ -113,6 +114,7 @@ export interface PickerModalOptionsSafe extends CalendarOptionsSafe {
   fulldayLabel?: string;
   fullday?: boolean;
   tapticConf?: TapticConfig;
+  uses24Hours?: boolean;
 }
 
 export interface TapticConfig {

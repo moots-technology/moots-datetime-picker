@@ -58,6 +58,7 @@ export class CalendarService {
       locale: calendarOptions.locale || 'en',
       startLabel: calendarOptions.startLabel || 'Start',
       endLabel: calendarOptions.endLabel || 'End',
+      uses24Hours: calendarOptions.uses24Hours,
       fulldayLabel: calendarOptions.fulldayLabel || 'All Day event',
       fullday: calendarOptions.fullday || false,
       defaultScrollTo: calendarOptions.defaultScrollTo ? payloadToDateTime(calendarOptions.defaultDate) : from,

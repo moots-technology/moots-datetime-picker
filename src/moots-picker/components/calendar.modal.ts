@@ -104,7 +104,7 @@ export class PickerModal implements OnInit, AfterViewInit {
   }
 
   is24Hours() {
-    return this.modalOptions.locale && this.localeUses24HourTime(this.modalOptions.locale);
+    return this.modalOptions.locale && this.modalOptions.uses24Hours;
   }
 
   onSelectChange(cstate: ClockPickState) {
@@ -169,7 +169,8 @@ export class PickerModal implements OnInit, AfterViewInit {
   }
 
   getAmPm2(input: DateTime) {
-    const s = input.toFormat('t');
+    const s = input.toFormat('a');
+    console.log(s);
     return s.substring(s.length - 2).toLowerCase();
   }
 

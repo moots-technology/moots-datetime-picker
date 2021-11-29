@@ -26,7 +26,8 @@ export class DemoModalBasicComponent {
       defaultDateRange: this.dateRange,
       weekStart: 1,
       step: 4,
-      locale: 'de'
+      locale: 'de',
+      uses24Hours: true
     };
 
     this.myCalendar = await this.modalCtrl.create({
