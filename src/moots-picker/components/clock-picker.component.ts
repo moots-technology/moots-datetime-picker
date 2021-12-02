@@ -95,13 +95,13 @@ export class ClockPickerComponent {
   }
 
   getAmPm() {
-    const s = this._inputTime.toFormat('t');
+    const s = this._inputTime.toLocaleString({ hour: 'numeric', minute: 'numeric', hour12: !this.mode24 });
     return s.substring(s.length - 2).toLowerCase();
   }
 
   setAmPm(arg: string) {
-    const f = this._inputTime.toFormat('t');
-    const time = f.replace(this.getAmPm().toUpperCase(), arg.toUpperCase());
+    const f = this._inputTime.toLocaleString({ hour: 'numeric', minute: 'numeric', hour12: !this.mode24 });
+    const time = f.replace(this.getAmPm().toLowerCase(), arg.toUpperCase()).replace(this.getAmPm().toUpperCase(), arg.toUpperCase());
     const temp = DateTime.fromFormat(time, 't', { zone: 'Etc/UTC' });
 
     this._inputTime = this._inputTime.set({ hour: temp.hour, minute: temp.minute });

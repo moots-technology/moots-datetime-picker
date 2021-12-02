@@ -159,6 +159,7 @@ export interface CalendarOptionsSafe {
    */
   showAdjacentMonthDay?: boolean;
   pickState?: GlobalPickState;
+  uses24Hours?: boolean;
 }
 
 export interface CalendarComponentOptions extends CalendarOptions {

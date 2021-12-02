@@ -93,16 +93,6 @@ export class PickerModal implements OnInit, AfterViewInit {
     public calSvc: CalendarService
   ) {}
 
-  localeUses24HourTime(locale: string) {
-    return (
-      new Intl.DateTimeFormat(locale, {
-        hour: 'numeric'
-      })
-        .formatToParts(new Date(2020, 0, 1, 13))
-        .find((part) => part.type === 'hour').value.length === 2
-    );
-  }
-
   is24Hours() {
     return this.modalOptions.locale && this.modalOptions.uses24Hours;
   }
@@ -169,8 +159,7 @@ export class PickerModal implements OnInit, AfterViewInit {
   }
 
   getAmPm2(input: DateTime) {
-    const s = input.toFormat('a');
-    console.log(s);
+    const s = input.toLocaleString({ hour: 'numeric', minute: 'numeric', hour12: !this.options.uses24Hours });
     return s.substring(s.length - 2).toLowerCase();
   }
 
