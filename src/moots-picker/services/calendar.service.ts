@@ -58,7 +58,7 @@ export class CalendarService {
       locale: calendarOptions.locale || 'en',
       startLabel: calendarOptions.startLabel || 'Start',
       endLabel: calendarOptions.endLabel || 'End',
-      uses24Hours: calendarOptions.uses24Hours ? calendarOptions.uses24Hours : detectHourCycle(),
+      uses24Hours: calendarOptions.uses24Hours,
       fulldayLabel: calendarOptions.fulldayLabel || 'All Day event',
       fullday: calendarOptions.fullday || false,
       defaultScrollTo: calendarOptions.defaultScrollTo ? payloadToDateTime(calendarOptions.defaultDate) : from,
@@ -263,7 +263,7 @@ export class CalendarService {
   }
 }
 
-function detectHourCycle(): boolean {
+/*function detectHourCycle(): boolean {
   return (
     new Intl.DateTimeFormat(DateTime.now().toLocal().locale, {
       hour: 'numeric'
@@ -271,4 +271,4 @@ function detectHourCycle(): boolean {
       .formatToParts(new Date(2020, 0, 1, 13))
       .find((part) => part.type === 'hour').value.length === 2
   );
-}
+}*/
