@@ -42,7 +42,6 @@
 
 /* Evergreen browsers require these. */
 // Used for reflect-metadata in JIT. If you use AOT (and only Angular decorators), you can remove.
-// tslint:disable-next-line:no-import-side-effect
 import 'core-js/proposals/reflect-metadata';
 
 /*
@@ -54,8 +53,7 @@ import 'core-js/proposals/reflect-metadata';
 /***************************************************************************************************
  * Zone JS is required by Angular itself.
  */
-// tslint:disable-next-line
-import 'zone.js';  // Included with Angular CLI.
+import 'zone.js'; // Included with Angular CLI.
 
 /***************************************************************************************************
  * APPLICATION IMPORTS

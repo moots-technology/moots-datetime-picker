@@ -1,5 +1,5 @@
 import { AnimationBuilder } from '@ionic/core';
-import * as moment from 'moment';
+import { DateTime } from 'luxon';
 
 export enum GlobalPickState {
   BEGIN_DATE,
@@ -17,8 +17,7 @@ export enum PickMode {
 }
 
 export interface CalendarOriginal {
-  time: number;
-  date: moment.Moment;
+  date: DateTime;
   year: number;
   month: number;
   firstWeek: number;
@@ -26,7 +25,7 @@ export interface CalendarOriginal {
 }
 
 export interface CalendarDay {
-  time: number;
+  time: DateTime;
   isToday: boolean;
   selected: boolean;
   disable: boolean;
@@ -50,9 +49,8 @@ export class CalendarMonth {
 }
 
 export interface DayConfig {
-  date: moment.Moment;
+  date: DateTime;
   marked?: boolean;
-  disable?: boolean;
   title?: string;
   subTitle?: string;
   cssClass?: string;
@@ -77,10 +75,10 @@ export interface PickerModalOptions extends CalendarOptions {
   doneIcon?: boolean;
   canBackwardsSelected?: boolean;
   title?: string;
-  defaultScrollTo?: moment.Moment;
-  defaultDate?: moment.Moment;
-  defaultDates?: moment.Moment[];
-  defaultDateRange?: { from: moment.Moment; to?: moment.Moment } | undefined;
+  defaultScrollTo?: CalendarComponentPayloadTypes;
+  defaultDate?: CalendarComponentPayloadTypes;
+  defaultDates?: CalendarComponentPayloadTypes[];
+  defaultDateRange?: { from: CalendarComponentPayloadTypes; to?: CalendarComponentPayloadTypes } | undefined;
   step?: number;
   changeListener?: (data: any) => any;
   locale?: string;
@@ -89,17 +87,64 @@ export interface PickerModalOptions extends CalendarOptions {
   fulldayLabel?: string;
   fullday?: boolean;
   tapticConf?: TapticConfig;
+  uses24Hours?: boolean;
+}
+
+export interface PickerModalOptionsSafe extends CalendarOptionsSafe {
+  autoDone?: boolean;
+  format?: string;
+  cssClass?: string;
+  id?: string;
+  isSaveHistory?: boolean;
+  closeLabel?: string;
+  doneLabel?: string;
+  closeIcon?: boolean;
+  doneIcon?: boolean;
+  canBackwardsSelected?: boolean;
+  title?: string;
+  defaultScrollTo?: DateTime;
+  defaultDate?: DateTime;
+  defaultDates?: DateTime[];
+  defaultDateRange?: { from: DateTime; to?: DateTime } | undefined;
+  step?: number;
+  changeListener?: (data: any) => any;
+  locale?: string;
+  startLabel?: string;
+  endLabel?: string;
+  fulldayLabel?: string;
+  fullday?: boolean;
+  tapticConf?: TapticConfig;
+  uses24Hours?: boolean;
 }
 
 export interface TapticConfig {
-    onClockHover?: () => void;
-    onClockSelect?: () => void;
-    onCalendarSelect?: () => void;
+  onClockHover?: () => void;
+  onClockSelect?: () => void;
+  onCalendarSelect?: () => void;
 }
 
 export interface CalendarOptions {
-  from?: moment.Moment;
-  to?: moment.Moment;
+  from?: CalendarComponentPayloadTypes;
+  to?: CalendarComponentPayloadTypes;
+  pickMode?: PickMode;
+  weekStart?: number;
+  disableWeeks?: number[];
+  weekdays?: string[];
+  monthFormat?: string;
+  color?: string;
+  defaultTitle?: string;
+  defaultSubtitle?: string;
+  daysConfig?: DayConfig[];
+  /**
+   * show last month & next month days fill six weeks
+   */
+  showAdjacentMonthDay?: boolean;
+  pickState?: GlobalPickState;
+}
+
+export interface CalendarOptionsSafe {
+  from?: DateTime;
+  to?: DateTime;
   pickMode?: PickMode;
   weekStart?: number;
   disableWeeks?: number[];
@@ -133,9 +178,20 @@ export class CalendarResult {
 }
 
 export class CalendarComponentMonthChange {
-  oldMonth: CalendarResult;
-  newMonth: CalendarResult;
+  oldMonth: number;
+  newMonth: number;
 }
 
 export type Colors = 'primary' | 'secondary' | 'danger' | 'light' | 'dark' | string;
-export type CalendarComponentPayloadTypes = string | Date | number | {};
+
+export type CalendarComponentPayloadTypes = Date | number;
+
+export function payloadToDateTime(payload: CalendarComponentPayloadTypes): DateTime {
+  return payload instanceof Date ? DateTime.fromJSDate(payload, { zone: 'Etc/UTC' }) : DateTime.fromMillis(payload, { zone: 'Etc/UTC' });
+}
+
+export function payloadsToDateTime(payloads: CalendarComponentPayloadTypes[]): DateTime[] {
+  var result: DateTime[] = [];
+  payloads.forEach((payload) => result.push(payloadToDateTime(payload)));
+  return result;
+}

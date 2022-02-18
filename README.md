@@ -4,17 +4,19 @@
 
 # Optimised Datetime Picker for Ionic
 
-An easy to use and beautiful ionic date & time picker with calendar and clock component for single dates and date ranges.
+An easy to use and beautiful ionic date & time picker with calendar and clock component for single dates and date ranges. Dark mode supported.
 
-![](https://i.imgur.com/U8lrlqD.png)
-![](https://i.imgur.com/53LWKAo.png)
+![chrome_lQWuHjZYoU](https://user-images.githubusercontent.com/59689061/140523162-9b537321-d76a-442b-bd1a-edd5a6bf411c.png)![chrome_YxnD0GDuyj](https://user-images.githubusercontent.com/59689061/140523171-c4ac6d2a-de5d-4b81-a48a-c1d07a23b6fe.png)
+
+![chrome_5IxbdCg6t0](https://user-images.githubusercontent.com/59689061/140523186-0554ae75-cad9-4c84-8b05-9629cfec4ac9.png)![chrome_cGnmRxHYn8](https://user-images.githubusercontent.com/59689061/140523196-fdb91465-3052-4fd9-8e23-65563e2aa978.png)
+
 
 # Versions
 
 | Datetime Picker-Version | Angular-Version |
 |---|---|
-| <=0.2.9 | Angular 8 |
-| >=0.3.0 | Angular 12|
+| <=0.2.9 | Angular 8  |
+| >=0.3.0 | Angular 12 |
 
 
 
@@ -28,15 +30,17 @@ Notes:
 
 # Install
 
-Dependencies (angular flex-layout):
+Dependencies:
 
-`npm i moment @angular/cdk @angular/flex-layout @angular/animations`
+`npm i luxon @angular/cdk @angular/flex-layout @angular/animations`
 
 The picker:
 
 `npm i moots-datetime-picker`
 
-# Usage
+# Note about time zones
+
+The picker is time zone agnostic. All input is expected to be in UTC, all calculations are done without regard to user time zone and locale, and all output is in UTC. When you select a certain date and time on the picker, you will get that displayed date and time in UTC format. Any locale specific transformations must happen outside of the picker.
 
 Import the `MootsPickerModule` and dependencies in your `AppModule`:
 
@@ -60,10 +64,10 @@ Please find below an example as a quick start guide to get the picker running.
 
 ```ts
 export class DemoModalBasicComponent {
-    date: moment.Moment = moment();
+    date = new DateTime();
     dateRange = {
-        from: this.date,
-        to: this.date
+        from: this.date.valueOf(),
+        to: this.date.valueOf()
     };
 
     myCalendar;
@@ -91,8 +95,8 @@ export class DemoModalBasicComponent {
     const { data: date, role } = event;
 
     if (role === 'done') {
-      this.startDate = moment(event.data.from.dateObj);
-      this.endDate = moment(event.data.to.dateObj);
+      this.startDate = DateTime.fromMillis(event.data.from, { zone: 'Etc/UTC' });
+      this.endDate = DateTime.fromMillis(event.data.to, { zone: 'Etc/UTC' });
     }
     console.log(this.startDate);
     console.log(this.endDate);

@@ -1,9 +1,7 @@
 import { Component, ElementRef } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { NavParamsMock } from 'ionic-mocks';
-import * as moment from 'moment';
-
-
+import { DateTime } from 'luxon';
 
 import { PickMode, PickerModal, PickerModalOptions } from '../moots-picker';
 import { CalendarService } from '../moots-picker/services/calendar.service';
@@ -12,24 +10,22 @@ import { CDRefMock, ModalCtrlMock, RendererMock } from './test-mocks';
 
 @Component({
   selector: 'demo-modal-basic',
-  template: `
-    <ion-button (click)="openCalendar()">
-      basic
-    </ion-button>
-  `,
+  template: ` <ion-button (click)="openCalendar()"> basic </ion-button> `
 })
 /** Creates and opens a basic modal picker to be tested */
 export class DemoModalBasicComponent {
-  currentDate: moment.Moment = moment();
+  currentDate: DateTime = DateTime.utc();
   dateRange = {
-    from: this.currentDate,
-    to: this.currentDate,
+    from: this.currentDate.valueOf(),
+    to: this.currentDate.valueOf()
   };
 
   modalCtrlMock: ModalController = new ModalCtrlMock();
   myPicker: PickerModal;
 
-  constructor() { /**/ }
+  constructor() {
+    /**/
+  }
 
   async openCalendar() {
     const options: PickerModalOptions = {
@@ -39,13 +35,20 @@ export class DemoModalBasicComponent {
       canBackwardsSelected: false,
       weekStart: 1,
       step: 4,
-      locale: window.navigator.language,
+      locale: window.navigator.language
     };
 
     const rendererMock = new RendererMock();
     const elemRefMock = new ElementRef(undefined);
     const cdRefMock = new CDRefMock();
-    this.myPicker = new PickerModal(rendererMock, elemRefMock, NavParamsMock.instance(), this.modalCtrlMock, cdRefMock, new CalendarService());
+    this.myPicker = new PickerModal(
+      rendererMock,
+      elemRefMock,
+      NavParamsMock.instance(),
+      this.modalCtrlMock,
+      cdRefMock,
+      new CalendarService()
+    );
 
     this.myPicker.options = options;
     this.myPicker.ngOnInit();
