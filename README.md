@@ -6,9 +6,9 @@
 
 An easy to use and beautiful ionic date & time picker with calendar and clock component for single dates and date ranges. Dark mode supported.
 
-![chrome_lQWuHjZYoU](https://user-images.githubusercontent.com/59689061/140523162-9b537321-d76a-442b-bd1a-edd5a6bf411c.png)![chrome_YxnD0GDuyj](https://user-images.githubusercontent.com/59689061/140523171-c4ac6d2a-de5d-4b81-a48a-c1d07a23b6fe.png)
+![140523162-9b537321-d76a-442b-bd1a-edd5a6bf411c](https://user-images.githubusercontent.com/59689061/154686013-09a8e47b-414b-4854-8ab2-f43cc1822c0e.png)![140523171-c4ac6d2a-de5d-4b81-a48a-c1d07a23b6fe](https://user-images.githubusercontent.com/59689061/154686022-b1ed9517-836d-494c-b864-3cde4a185fa3.png)
 
-![chrome_5IxbdCg6t0](https://user-images.githubusercontent.com/59689061/140523186-0554ae75-cad9-4c84-8b05-9629cfec4ac9.png)![chrome_cGnmRxHYn8](https://user-images.githubusercontent.com/59689061/140523196-fdb91465-3052-4fd9-8e23-65563e2aa978.png)
+![140523186-0554ae75-cad9-4c84-8b05-9629cfec4ac9](https://user-images.githubusercontent.com/59689061/154686041-189e4ec8-fd54-4677-bdc7-180a7d5c2915.png)![140523196-fdb91465-3052-4fd9-8e23-65563e2aa978](https://user-images.githubusercontent.com/59689061/154686051-7674b32d-11bf-4e8b-a128-14f0b65cb65f.png)
 
 
 # Versions
