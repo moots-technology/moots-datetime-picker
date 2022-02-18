@@ -1,3 +1,5 @@
+![Build](https://github.com/moots-technology/moots-datetime-picker/actions/workflows/node.js.yml/badge.svg)
+
 # About
 
 [moots technology](https://mootstech.com.au) is an Adelaide, South Australia based consultancy and software development company with a huge expertise in usage requirements analysis and cloud architecture frameworks for creating modern software solutions. Hereby we prioritise high usability and amazing UX over adding further features.
