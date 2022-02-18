@@ -32,13 +32,15 @@ Notes:
 
 Dependencies:
 
-`npm i luxon  @angular/cdk @angular/flex-layout @angular/animations`
+`npm i luxon @angular/cdk @angular/flex-layout @angular/animations`
 
 The picker:
 
 `npm i moots-datetime-picker`
 
-# Usage
+# Note about time zones
+
+The picker is time zone agnostic. All input is expected to be in UTC, all calculations are done without regard to user time zone and locale, and all output is in UTC. When you select a certain date and time on the picker, you will get that displayed date and time in UTC format. Any locale specific transformations must happen outside of the picker.
 
 Import the `MootsPickerModule` and dependencies in your `AppModule`:
 
@@ -62,10 +64,10 @@ Please find below an example as a quick start guide to get the picker running.
 
 ```ts
 export class DemoModalBasicComponent {
-    date: moment.Moment = moment();
+    date = new DateTime();
     dateRange = {
-        from: this.date,
-        to: this.date
+        from: this.date.valueOf(),
+        to: this.date.valueOf()
     };
 
     myCalendar;
@@ -93,8 +95,8 @@ export class DemoModalBasicComponent {
     const { data: date, role } = event;
 
     if (role === 'done') {
-      this.startDate = moment(event.data.from.dateObj);
-      this.endDate = moment(event.data.to.dateObj);
+      this.startDate = DateTime.fromMillis(event.data.from, { zone: 'Etc/UTC' });
+      this.endDate = DateTime.fromMillis(event.data.to, { zone: 'Etc/UTC' });
     }
     console.log(this.startDate);
     console.log(this.endDate);
