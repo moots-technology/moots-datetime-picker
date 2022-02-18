@@ -42,6 +42,8 @@ The picker:
 
 The picker is time zone agnostic. All input is expected to be in UTC, all calculations are done without regard to user time zone and locale, and all output is in UTC. When you select a certain date and time on the picker, you will get that displayed date and time in UTC format. Any locale specific transformations must happen outside of the picker.
 
+# Usage
+
 Import the `MootsPickerModule` and dependencies in your `AppModule`:
 
 ```ts

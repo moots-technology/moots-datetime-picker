@@ -10,6 +10,8 @@
     "calendar",
     "datepicker",
     "timepicker",
+    "datetime",
+    "picker",
     "clock"
   ],
   "scripts": {
