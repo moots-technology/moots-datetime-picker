@@ -1,12 +1,8 @@
 ![Build](https://github.com/moots-technology/moots-datetime-picker/actions/workflows/node.js.yml/badge.svg)
 
-# About
+# Moots Datetime Picker
 
-[moots technology](https://mootstech.com.au) is an Adelaide, South Australia based consultancy and software development company with a huge expertise in usage requirements analysis and cloud architecture frameworks for creating modern software solutions. Hereby we prioritise high usability and amazing UX over adding further features.
-
-# Optimised Datetime Picker for Ionic
-
-An easy to use and beautiful ionic date & time picker with calendar and clock component for single dates and date ranges. Dark mode supported.
+The most intuitive and beautiful date & time picker for ionic. Moots datetime picker allows you to set single dates or date ranges in an easy and intuitive way. It features a calendar and clock picker with support for 12 and 24 hour mode. Choose your desired date with the help of our beautiful and easy-to-use interface. Dark mode supported.
 
 ![140523162-9b537321-d76a-442b-bd1a-edd5a6bf411c](https://user-images.githubusercontent.com/59689061/154686013-09a8e47b-414b-4854-8ab2-f43cc1822c0e.png)![140523171-c4ac6d2a-de5d-4b81-a48a-c1d07a23b6fe](https://user-images.githubusercontent.com/59689061/154686022-b1ed9517-836d-494c-b864-3cde4a185fa3.png)
 
@@ -19,7 +15,6 @@ An easy to use and beautiful ionic date & time picker with calendar and clock co
 |---|---|
 | <=0.2.9 | Angular 8  |
 | >=0.3.0 | Angular 12 |
-
 
 
 # Live Demo
@@ -99,11 +94,12 @@ export class DemoModalBasicComponent {
     const { data: date, role } = event;
 
     if (role === 'done') {
-      this.startDate = DateTime.fromMillis(event.data.from, { zone: 'Etc/UTC' });
-      this.endDate = DateTime.fromMillis(event.data.to, { zone: 'Etc/UTC' });
+      const startDate = DateTime.fromMillis(event.data.from, { zone: 'Etc/UTC' });
+      const endDate = DateTime.fromMillis(event.data.to, { zone: 'Etc/UTC' });
+      console.log(startDate);
+      console.log(endDate);
     }
-    console.log(this.startDate);
-    console.log(this.endDate);
+
     console.log('role', role);
   }
 }
@@ -119,3 +115,7 @@ To release a new version, commit all your changes and run:
 - `npm version patch` to increment the version
 - `npm run packagr` to build the library package
 - `npm publish dist` to pubish it to npmjs
+
+# About
+
+[moots technology](https://mootstech.com.au) is an Adelaide, South Australia based consultancy and software development company with a huge expertise in usage requirements analysis and cloud architecture frameworks for creating modern software solutions. Hereby we prioritise high usability and amazing UX over adding further features.
