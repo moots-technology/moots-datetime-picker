@@ -29,7 +29,7 @@
     "luxon": "^2.0.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^12.2.5",
+    "@angular-devkit/build-angular": "^14.2.6",
     "@angular-devkit/core": "^12.2.5",
     "@angular-devkit/schematics": "^12.2.5",
     "@angular/animations": "^12.2.5",
